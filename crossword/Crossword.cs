@@ -8,16 +8,17 @@ namespace crossword
 {
     class Crossword
     {
-        public int[][] GetBlockStates() {
-            return new int[][] {
-                new int[] { 0, 1, 1, 0 }
-                , new int [] { 0, 0, 1, 0 }
-                , new int [] { 1, 1, 1, 0 }
-                , new int [] { 1, 1, 1, 0 }
-                , new int [] { 1, 1, 1, 0 }
-                , new int [] { 1, 1, 1, 0 }
-                , new int [] { 1, 1, 1, 0 }
-                , new int [] { 1, 1, 1, 0 }
+        public Block[][] GetBlockStates() {
+            return new Block[][] {
+                new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
+
             };
         }
 

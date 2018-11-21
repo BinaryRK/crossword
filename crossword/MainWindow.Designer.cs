@@ -32,6 +32,8 @@
             this.UI_MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.UI_TablePanel.SuspendLayout();
             this.UI_MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,7 +42,8 @@
             this.UI_TablePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.UI_TablePanel.ColumnCount = 2;
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1154F));
+            this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
             this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UI_TablePanel.Location = new System.Drawing.Point(0, 24);
             this.UI_TablePanel.Name = "UI_TablePanel";
@@ -71,8 +74,15 @@
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.newGameToolStripMenuItem.Text = "New Game";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(4, 4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(38, 26);
+            this.textBox1.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -81,13 +91,15 @@
             this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.UI_TablePanel);
             this.Controls.Add(this.UI_MainMenuStrip);
-            this.Font = new System.Drawing.Font("Neo Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.UI_MainMenuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Crossword: The Game";
             this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.UI_TablePanel.ResumeLayout(false);
+            this.UI_TablePanel.PerformLayout();
             this.UI_MainMenuStrip.ResumeLayout(false);
             this.UI_MainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -101,6 +113,7 @@
         private System.Windows.Forms.MenuStrip UI_MainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

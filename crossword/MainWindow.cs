@@ -30,15 +30,15 @@ namespace crossword
 
         public void RemakeTable()
         {
-            int[][] blockStates = activeCrossword.GetBlockStates();
+            Block [][] blockStates = activeCrossword.GetBlockStates();
 
             int rowcount = blockStates.Length;
             int columncount = blockStates[0].Length;
 
             // Clear everything old first
             UI_TablePanel.Controls.Clear();
-            UI_TablePanel.RowStyles.Clear();// = rowcount;
-            UI_TablePanel.ColumnStyles.Clear(); //= columncount;
+            UI_TablePanel.RowStyles.Clear();
+            UI_TablePanel.ColumnStyles.Clear();
 
             UI_TablePanel.RowCount = rowcount;
             UI_TablePanel.ColumnCount = columncount;
@@ -60,7 +60,7 @@ namespace crossword
             {
                 for (int col = 0; col < columncount; col++)
                 {
-                    SetTableElement(blockStates[row][col], row, col);
+                    UI_TablePanel.Controls.Add(blockStates[row][col].GenerateControl(), col, row);
                 }
             }
         }
@@ -71,14 +71,8 @@ namespace crossword
         {
             //UI_TablePanel.Controls.Remove(UI_TablePanel.GetControlFromPosition(column+1, row+1));
 
-            UI_TablePanel.Controls.Add(GenerateControlForBox(block), column, row);
         }
 
-        private static Control GenerateControlForBox(int block)
-        {
-            TextBox textBox = new TextBox();
-            textBox.Text = block.ToString();
-            return textBox;
-        }
+        
     }
 }

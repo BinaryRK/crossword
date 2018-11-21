@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,13 +19,38 @@ namespace crossword
 
     class Block
     {
+        private Control control;
+        
+
+
         private BlockState state;
         private char character;
+        private char charanswer;
         
+        public Block(int i) //remove
+        {
+            state = BlockState.Unconfirmed;
+            character = 'a';
+        }
+        public Block(BlockState state,char character)
+        {
+            this.state = state;
+            this.character = character;
+        }
+
         public BlockState GetBlockState()
         {
             return state;
         }
+        
+        public Control GenerateControl()
+        {
+            TextBox textBox = new TextBox();
+            textBox.Text = character.ToString();
+            control = textBox;
+            return control;
+        }
+
 
 
         bool IsBlack()
