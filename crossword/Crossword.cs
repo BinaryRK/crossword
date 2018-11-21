@@ -39,7 +39,7 @@ namespace crossword
                 };
 
             blocks = new Block[crw.Length][];
-
+            Random r = new Random();
             for (int row=0; row<crw.Length; row++)
             {
                 blocks[row] = new Block[crw[0].Length];
@@ -49,18 +49,18 @@ namespace crossword
 
                     if (c == '#')
                     {
-                        blocks[row][col] = new Block(BlockState.Black, ' ');
+                        blocks[row][col] = new Block(BlockState.Black, ' ', ' ');
                     }
                     else
                     {
-                        Random r = new Random();
+
                         if (r.Next() % 100 <= 10)
                         {
-                            blocks[row][col] = new Block(BlockState.Confirmed, c);
+                            blocks[row][col] = new Block(BlockState.Confirmed, c, c);
                         }
                         else
                         {
-                            blocks[row][col] = new Block(BlockState.Empty, ' ');
+                            blocks[row][col] = new Block(BlockState.Empty, ' ', c);
                         }
                     }
 

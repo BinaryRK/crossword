@@ -35,11 +35,11 @@ namespace crossword
 
 
 
-        public Block(BlockState state,char character,char answer) //constructor
+        public Block(BlockState state,char character_,char answer_) //constructor
         {
             this.state = state;
-            this.character = character;
-            this.character = answer;
+            this.character = character_.ToString().ToUpper()[0];
+            this.charanswer = answer_.ToString().ToUpper()[0];
         }
 
         public BlockState GetBlockState() //getter
@@ -83,7 +83,10 @@ namespace crossword
             if (CanPlaceCharacer(charact))
             {
                 character = charact;
-                
+                if (character == charanswer)
+                {
+                    control.BackColor = System.Drawing.Color.MediumSeaGreen;
+                }   
             }
         }
 
@@ -108,7 +111,7 @@ namespace crossword
 
             textBox1.TextChanged += new EventHandler(delegate (Object sender, EventArgs a)
             {
-                if (textBox1.TextLength > 1)
+                if (textBox1.TextLength >= 1 && control != null)
                 {
                     PlaceCharacter(textBox1.Text[0]);
                 }
@@ -133,7 +136,7 @@ namespace crossword
             TextBox Text = GenerateText();
             Text.BackColor = System.Drawing.Color.MediumSeaGreen;
             Text.ReadOnly = true;
-
+            Text.Text = charanswer.ToString();
             return Text;
         }
 
