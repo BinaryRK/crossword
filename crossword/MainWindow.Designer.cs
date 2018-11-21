@@ -28,24 +28,79 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.UI_TablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.UI_MainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UI_MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // UI_TablePanel
+            // 
+            this.UI_TablePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.UI_TablePanel.ColumnCount = 2;
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.UI_TablePanel.Location = new System.Drawing.Point(0, 24);
+            this.UI_TablePanel.Name = "UI_TablePanel";
+            this.UI_TablePanel.RowCount = 2;
+            this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.UI_TablePanel.Size = new System.Drawing.Size(1200, 668);
+            this.UI_TablePanel.TabIndex = 0;
+            // 
+            // UI_MainMenuStrip
+            // 
+            this.UI_MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gameToolStripMenuItem});
+            this.UI_MainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.UI_MainMenuStrip.Name = "UI_MainMenuStrip";
+            this.UI_MainMenuStrip.Size = new System.Drawing.Size(1200, 24);
+            this.UI_MainMenuStrip.TabIndex = 1;
+            this.UI_MainMenuStrip.Text = "menuStrip1";
+            // 
+            // gameToolStripMenuItem
+            // 
+            this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newGameToolStripMenuItem});
+            this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
+            this.gameToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.gameToolStripMenuItem.Text = "Game";
+            // 
+            // newGameToolStripMenuItem
+            // 
+            this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newGameToolStripMenuItem.Text = "New Game";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.UI_TablePanel);
+            this.Controls.Add(this.UI_MainMenuStrip);
             this.Font = new System.Drawing.Font("Neo Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainMenuStrip = this.UI_MainMenuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Crossword: The Game";
             this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.UI_MainMenuStrip.ResumeLayout(false);
+            this.UI_MainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TableLayoutPanel UI_TablePanel;
+        private System.Windows.Forms.MenuStrip UI_MainMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
     }
 }
 
