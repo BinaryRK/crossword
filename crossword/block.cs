@@ -10,105 +10,89 @@ namespace crossword
     public enum BlockState
     {
         Black ,
-        Empty ,
         Confirmed ,
         Unconfirmed,
         Wrong
     };
-
-    
 
     class Block
     {
         private TextBox control;
         private BlockState state;
         private char character;
-        private char charanswer;
-        
-        
+        private char answer;
 
-        public Block(int i) //remove
-        {
-            state = BlockState.Unconfirmed;
-            character = 'a';
-        }
-
-
-
-        public Block(BlockState state,char character_,char answer_) //constructor
+        public Block(BlockState state, char character, char answer) //constructor
         {
             this.state = state;
-            this.character = character_.ToString().ToUpper()[0];
-            this.charanswer = answer_.ToString().ToUpper()[0];
+            this.character = char.ToUpper(character);
+            this.answer = char.ToUpper(answer);
         }
-
-        public BlockState GetBlockState() //getter
-        {
-            return state;
-        }
-        
-        public TextBox GenerateControl() //Controler
-        {
-           
-            if (state == BlockState.Black)
-            {
-                control = GenerateTextBoxBlack();
-            }else if(state == BlockState.Confirmed)
-            {
-                control = GenerateTextBoxConfirmed();
-            }else if(state == BlockState.Empty)
-            {
-                control = GenerateTextBoxUnconfirmed();
-            }else if(state == BlockState.Unconfirmed)
-            {
-                control = GenerateTextBoxUnconfirmed();
-            }else
-            {
-                control = GenerateTextBoxWrong();
-            }
-            return control;
-            
-        }
-        
-
-       
 
         bool CanPlaceCharacer(char charact)
         {
-            return Convert.ToBoolean( BlockState.Empty ) || Convert.ToBoolean(BlockState.Unconfirmed);
+            return state == BlockState.Unconfirmed
+                || state == BlockState.Wrong;
         }
 
-        void PlaceCharacter(char charact)
+        void PlaceCharacter(char c)
         {
-            if (CanPlaceCharacer(charact))
+            if (CanPlaceCharacer(c))
             {
-                character = charact;
-                if (character == charanswer)
+                character = c;
+                if (character == answer)
                 {
                     control.BackColor = System.Drawing.Color.MediumSeaGreen;
                 }   
             }
         }
 
-
         void ConfirmCharacter()
         {
             state = BlockState.Confirmed;
         }
 
+        public BlockState GetBlockState() //getter
+        {
+            return state;
+        }
 
+        public TextBox GenerateControl() //Controler
+        {
+            switch (state) {
+                case BlockState.Black:
+                    control = GenerateTextBoxBlack();
+                    break;
+                case BlockState.Confirmed:
+                    control = GenerateTextBoxConfirmed();
+                    break;
+                case BlockState.Unconfirmed:
+                    control = GenerateTextBoxUnconfirmed();
+                    break;
+                case BlockState.Wrong:
+                    control = GenerateTextBoxWrong();
+                    break;
+                default:
+                    throw new Exception("Unhandled enum case for BlockState.");
+            } 
+
+            return control;
+        }
+
+        // TODO: Refactor generate text to format the member TextBox
         private TextBox GenerateText()
         {
             TextBox textBox1 = new TextBox();
-            textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            textBox1.BorderStyle = BorderStyle.None;
             textBox1.Location = new System.Drawing.Point(4, 4);
             textBox1.Size = new System.Drawing.Size(20, 19);
             textBox1.TabIndex = 0;
-            textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            textBox1.CharacterCasing = CharacterCasing.Upper;
             textBox1.MaxLength = 1;
-            textBox1.Margin = new System.Windows.Forms.Padding(0);
-            textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            textBox1.Margin = new Padding(0);
+            textBox1.TextAlign = HorizontalAlignment.Center;
 
+            // TODO: Use key presses and disable TextEditing completely
             textBox1.TextChanged += new EventHandler(delegate (Object sender, EventArgs a)
             {
                 if (textBox1.TextLength >= 1 && control != null)
@@ -128,7 +112,6 @@ namespace crossword
             Text.ReadOnly = true;
 
             return Text;
-            
         }
         
         private TextBox GenerateTextBoxConfirmed()
@@ -136,13 +119,12 @@ namespace crossword
             TextBox Text = GenerateText();
             Text.BackColor = System.Drawing.Color.MediumSeaGreen;
             Text.ReadOnly = true;
-            Text.Text = charanswer.ToString();
+            Text.Text = answer.ToString();
             return Text;
         }
 
         private TextBox GenerateTextBoxUnconfirmed()
         {
-            
             TextBox Text = GenerateText();
             Text.BackColor = System.Drawing.Color.LightGray;
             
@@ -151,13 +133,10 @@ namespace crossword
          
         private TextBox GenerateTextBoxWrong()
         {
-                        
             TextBox Text = GenerateText();
-            Text.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(144)))), ((int)(((byte)(85)))));
+            Text.BackColor = System.Drawing.Color.FromArgb(255, 144, 85);
 
             return Text;
         }
-
-        
     }
 }

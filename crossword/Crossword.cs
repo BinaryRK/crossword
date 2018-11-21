@@ -60,29 +60,12 @@ namespace crossword
                         }
                         else
                         {
-                            blocks[row][col] = new Block(BlockState.Empty, ' ', c);
+                            blocks[row][col] = new Block(BlockState.Unconfirmed, ' ', c);
                         }
                     }
 
                 }
             }
         }
-
-        public Block[][] GetBlockStates() {
-            return new Block[][] {
-                new Block[] { new Block(BlockState.Black,' ',' '), new Block(BlockState.Wrong, 'b', 'a'), new Block(BlockState.Empty, ' ', ' '), new Block (BlockState.Confirmed,' ',' ') }
-                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
-                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
-                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
-                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
-                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
-                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
-                , new Block[] { new Block(0), new Block(1), new Block(1), new Block (0) }
-
-            };
-        }
-
-
-
     }
 }
