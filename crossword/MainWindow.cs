@@ -25,15 +25,16 @@ namespace crossword
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
             RemakeTable();
         }
 
         public void RemakeTable()
         {
-            Block [][] blockStates = activeCrossword.GetBlockStates();
+            Block [][] blocks = activeCrossword.GetBlocks();
 
-            int rowcount = blockStates.Length;
-            int columncount = blockStates[0].Length;
+            int rowcount = blocks.Length;
+            int columncount = blocks[0].Length;
 
             // Clear everything old first
             UI_TablePanel.Controls.Clear();
@@ -60,19 +61,9 @@ namespace crossword
             {
                 for (int col = 0; col < columncount; col++)
                 {
-                    UI_TablePanel.Controls.Add(blockStates[row][col].GenerateControl(), col, row);
+                    UI_TablePanel.Controls.Add(blocks[row][col].GenerateControl(), col, row);
                 }
             }
         }
-
-        // TODO: Use Block Class here
-        // Uses array indexes (1st row is row=0)
-        private void SetTableElement(int block, int row, int column)
-        {
-            //UI_TablePanel.Controls.Remove(UI_TablePanel.GetControlFromPosition(column+1, row+1));
-
-        }
-
-        
     }
 }
