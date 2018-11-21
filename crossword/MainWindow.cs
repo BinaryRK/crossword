@@ -15,7 +15,7 @@ namespace crossword
     {
         Crossword activeCrossword;
 
-        private int blockSizePx = 44;
+        private int blockSizePx = 21;
 
         public MainWindow()
         {
@@ -73,6 +73,6 @@ namespace crossword
 
         }
 
-        
+       
     }
 }
