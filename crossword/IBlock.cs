@@ -21,8 +21,9 @@ namespace crossword
 
         void SetCharacter(char c);
 
-        // Attempts to validate the current character
-        // returns true if successful
-        bool TryValidate();
+        void Highlight();
+
+        void SetConfirmed();
+        void SetWrong();
     }
 }
