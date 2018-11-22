@@ -31,7 +31,10 @@ namespace crossword
             text.Enabled = false;
         }
 
-
+        public char GetAnswer()
+        {
+            return '#';
+        }
 
         public void Highlight() { }
 

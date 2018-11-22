@@ -19,6 +19,7 @@ namespace crossword
         string correctWord;
         string description;
         CharacterBlock[] blocks;
+        bool finished = false;
 
         public Word(string correctWord, string description, WordDirection direction = WordDirection.Horizontal)
         {
@@ -38,7 +39,7 @@ namespace crossword
         {
             if (IsFilled())
             {
-                TryConfirm();
+                finished = TryConfirm();
             }
         }
 
@@ -70,7 +71,6 @@ namespace crossword
             return block;
         }
 
-
         // Generate the remaining unset blocks. (or all blocks if none are already generated/set)
         public void GenerateRemainingBlocks()
         {
@@ -96,12 +96,6 @@ namespace crossword
         public WordDirection GetDirection()
         {
             return direction;
-        }
-
-        // Position is in range 0 -> Len-1
-        public char GetLetterAt(int position)
-        {
-            return correctWord[position];
         }
 
         public CharacterBlock GetBlockAt(int position)
@@ -145,16 +139,9 @@ namespace crossword
         }
 
         // returns true when the all blocks are confirmed
-        public bool IsConfirmed()
+        public bool IsFinished()
         {
-            foreach (var block in blocks)
-            {
-                if (false) // TODO:
-                {
-                    return false;
-                }
-            }
-            return true;
+            return finished;
         }
 
         public bool TryConfirm()

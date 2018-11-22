@@ -23,6 +23,8 @@ namespace crossword
 
         void SetCharacter(char c);
 
+        char GetAnswer();
+
         void Highlight();
 
         void SetConfirmed();
