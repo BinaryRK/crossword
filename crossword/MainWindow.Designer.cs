@@ -43,7 +43,7 @@
             this.UI_TablePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.UI_TablePanel.ColumnCount = 2;
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1161F));
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1162F));
             this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
             this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UI_TablePanel.Location = new System.Drawing.Point(0, 24);
@@ -56,7 +56,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.textBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.textBox1.Location = new System.Drawing.Point(1, 1);
