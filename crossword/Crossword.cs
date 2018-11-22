@@ -23,13 +23,37 @@ namespace crossword
         {
             List<Word> a = new List<Word>();
 
-            a.Add(new Word("Cat", "Not a cat."));
-            a.Add(new Word("Dog", "Not a dog"));
-            a.Add(new Word("Dog", "lorem ip"));
-            a.Add(new Word("Dog", "Not a dog"));
-            a.Add(new Word("Dog", "Not a dog"));
-            a.Add(new Word("Lorem", "Lorem ipsum dolor sit amet, viris eruditi cum at. Te sea minim omittam, imperdiet reprehendunt cum ut. Eum ea summo mollis eleifend. Illum aeque instructior cum et. Pri velit dignissim in, cu qui eros epicurei platonem."));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
 
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
+            a.Add(new Word("Dog", "Not a dog", WordDirection.Vertical));
+            a.Add(new Word("Dog", "lorem ip", WordDirection.Vertical));
+            a.Add(new Word("Dog", "Not a dog", WordDirection.Vertical));
+            a.Add(new Word("Dog", "Not a dog", WordDirection.Vertical));
+            a.Add(new Word("Lorem", "Lorem ipsum dolor sit amet, viris eruditi cum at. Te sea minim omittam, imperdiet reprehendunt cum ut. Eum ea summo mollis eleifend. Illum aeque instructior cum et. Pri velit dignissim in, cu qui eros epicurei platonem."));
+            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
+            a.Add(new Word("Klol", "lol", WordDirection.Vertical));
+            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
+            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
+            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
+            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
+            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
+            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
             return a.ToArray();
         }
 

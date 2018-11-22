@@ -29,10 +29,33 @@ namespace crossword
             RemakeTable();
             RemakeWords();
         }
+       
 
         public void RemakeWords()
         {
-            UI_Words.Controls.Add(new TextBox());
+            ListBox text;
+            Word[] words = activeCrossword.GetWords();
+            int i = 0;
+            for (i=0; i< words.Length; ++i)
+            {
+                
+
+                if (words[i].GetDirection() == WordDirection.Horizontal)
+                {
+                    text = new ListBox();
+                    text.Text = words[i].GetDescription();
+                    listBoxhorizontal.Items.Add(words[i].GetDescription());
+                    listBoxhorizontal.Size = new Size (listBoxhorizontal.Width,listBoxhorizontal.Items.Count * 20+30);
+                }
+                else
+                {
+                    text = new ListBox();
+                    text.Text = words[i].GetDescription();
+                    listBox2.Items.Add(words[i].GetDescription());
+                }
+
+                
+            }
 
         }
 
@@ -90,6 +113,16 @@ namespace crossword
                 }
                 
             }
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void listBoxhorizontal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
         }
     }
 }
