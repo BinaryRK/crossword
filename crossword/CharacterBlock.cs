@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace crossword
 {
-    public enum BlockState{
+    public enum BlockState
+    {
         Confirmed,
         Unconfirmed,
         Wrong
     }
-    class CharacterBlock : IBlock 
+    class CharacterBlock : IBlock
     {
         private BlockState state;
         private char answer;
@@ -20,7 +21,14 @@ namespace crossword
         private Word vertical;
         private Word horizontal;
         TextBox text = new TextBox();
-        
+
+        public CharacterBlock(char answer)
+        {
+            CreateBox();
+            this.answer = answer;
+            state = BlockState.Unconfirmed;
+        }
+
         public void CreateBox()
         {
             text.BorderStyle = BorderStyle.None;
@@ -32,17 +40,27 @@ namespace crossword
             text.Margin = new Padding(0);
             text.TextAlign = HorizontalAlignment.Center;
             text.BackColor = System.Drawing.Color.LightGray;
-
+            text.TextChanged += new EventHandler(delegate (Object sender, EventArgs a)
+            {
+                if (IsPartOfHorizontalWord())
+                {
+                    GetHorizontalWord().OnBlockUpdated(this);
+                }
+                else if (IsPartOfVerticalWord())
+                {
+                    GetVerticalWord().OnBlockUpdated(this);
+                }
+            });
         }
 
         public void Highlight()
         {
-             void textBox1_MouseEnter(object sender, EventArgs e)
+            void textBox1_MouseEnter(object sender, EventArgs e)
             {
                 text.BackColor = System.Drawing.Color.LightYellow;
             }
 
-             void textBox1_MouseLeave(object sender, EventArgs e)
+            void textBox1_MouseLeave(object sender, EventArgs e)
             {
                 text.BackColor = System.Drawing.Color.White;
             }
@@ -67,7 +85,7 @@ namespace crossword
             }
         }
 
-        
+
 
         public bool IsCorrectAnswer()
         {
@@ -133,6 +151,20 @@ namespace crossword
         {
             UpdateState(BlockState.Wrong);
         }
-        
+
+        public void SetVerticalWord(Word word)
+        {
+            vertical = word;
+        }
+
+        public void SetHorizontalWord(Word word)
+        {
+            horizontal = word;
+        }
+
+        public bool IsSet()
+        {
+            return character != ' ';
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace crossword
 {
@@ -19,12 +20,26 @@ namespace crossword
         string description;
         CharacterBlock[] blocks;
 
-        public Word(string correctWord, string description, WordDirection direction)
+        public Word(string correctWord, string description, WordDirection direction = WordDirection.Horizontal)
         {
             this.correctWord = correctWord.ToUpper();
             this.direction = direction;
             this.description = description;
             this.blocks = new CharacterBlock[correctWord.Length];
+        }
+
+        public void OnDescriptionClicked()
+        {
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            MessageBox.Show(correctWord, description, buttons);
+        }
+
+        public void OnBlockUpdated(IBlock block)
+        {
+            if (IsFilled())
+            {
+                TryConfirm();
+            }
         }
 
         public void SetSharedBlock(CharacterBlock block, int position)
@@ -49,7 +64,7 @@ namespace crossword
             var block = blocks[position];
             if (block == null)
             {
-                block = new CharacterBlock();
+                block = new CharacterBlock(correctWord[position]);
                 blocks[position] = block;
             }
             return block;
@@ -117,6 +132,18 @@ namespace crossword
             return true;
         }
 
+        public bool IsFilled()
+        {
+            foreach (var block in blocks)
+            {
+                if (!block.IsSet())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         // returns true when the all blocks are confirmed
         public bool IsConfirmed()
         {
@@ -132,15 +159,20 @@ namespace crossword
 
         public bool TryConfirm()
         {
-            if (IsCorrect())
-            {
-                return false;
-            }
+            bool correct = IsCorrect();
+
             foreach (var block in blocks)
             {
-                block.Validate();
+                if (correct)
+                {
+                    block.SetConfirmed();
+                }
+                else
+                {
+                    block.SetWrong();
+                }
             }
-            return false;
+            return correct;
         }
     }
 }

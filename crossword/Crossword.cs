@@ -16,11 +16,30 @@ namespace crossword
 
     class Crossword
     {
-        private Block[][] blocks { get; set; }
+        private IBlock[,] blocks { get; set; }
+        //private Word[] words = new Word[10];
 
-        public Block[][] GetBlocks()
+        public Word[] GetWords()
         {
-            return blocks;
+            List<Word> a = new List<Word>();
+
+            a.Add(new Word("Cat", "Not a cat."));
+            a.Add(new Word("Dog", "Not a dog"));
+            a.Add(new Word("Dog", "lorem ip"));
+            a.Add(new Word("Dog", "Not a dog"));
+            a.Add(new Word("Dog", "Not a dog"));
+            a.Add(new Word("Lorem", "Lorem ipsum dolor sit amet, viris eruditi cum at. Te sea minim omittam, imperdiet reprehendunt cum ut. Eum ea summo mollis eleifend. Illum aeque instructior cum et. Pri velit dignissim in, cu qui eros epicurei platonem."));
+
+            return a.ToArray();
+        }
+
+        static public IBlock CreateBlock(char c)
+        {
+            if (c == '#')
+            {
+                return new BlackBlock();
+            }
+            return new CharacterBlock(c);
         }
 
         public void GenerateNewCrossword(GameDifficulty difficulty) {
@@ -28,7 +47,7 @@ namespace crossword
                 new string[] {
                       "#character##"
                     , "#a##########"
-                    , "#t#f###f####"
+                    , "#t#F?##f####"
                     , "#a#a###o####"
                     , "#l#k###r####"
                     , "#overwatch##"
@@ -38,34 +57,31 @@ namespace crossword
                     , "#kafeeeeee##"
                 };
 
-            blocks = new Block[crw.Length][];
-            Random r = new Random();
-            for (int row=0; row<crw.Length; row++)
+            blocks = new IBlock[crw.Length, crw[0].Length];
+            for (int row = 0; row < crw.Length; row++)
             {
-                blocks[row] = new Block[crw[0].Length];
-                for (int col=0; col<crw[0].Length; col++)
+                for (int col = 0; col < crw[0].Length; col++)
                 {
-                    char c = crw[row][col];
+                    blocks[row, col] = CreateBlock(crw[row][col]);
+                }
+            } 
+        }
 
-                    if (c == '#')
-                    {
-                        blocks[row][col] = new Block(BlockState.Black, ' ', ' ');
-                    }
-                    else
-                    {
-
-                        if (r.Next() % 100 <= 10)
-                        {
-                            blocks[row][col] = new Block(BlockState.Confirmed, c, c);
-                        }
-                        else
-                        {
-                            blocks[row][col] = new Block(BlockState.Unconfirmed, ' ', c);
-                        }
-                    }
-
+        public bool IsSolved()
+        {
+            foreach (var block in blocks)
+            {
+                if (!block.IsCorrectAnswer())
+                {
+                    return false;
                 }
             }
+            return true;
+        }
+
+        public IBlock[,] GetBlocks()
+        {
+            return blocks;
         }
     }
 }

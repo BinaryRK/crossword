@@ -27,14 +27,21 @@ namespace crossword
         {
             activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
             RemakeTable();
+            RemakeWords();
+        }
+
+        public void RemakeWords()
+        {
+            UI_Words.Controls.Add(new TextBox());
+
         }
 
         public void RemakeTable()
         {
-            Block [][] blocks = activeCrossword.GetBlocks();
+            IBlock[,] blocks = activeCrossword.GetBlocks();
 
-            int rowcount = blocks.Length;
-            int columncount = blocks[0].Length;
+            int rowcount = blocks.GetLength(0);
+            int columncount = blocks.GetLength(1);
 
             // Clear everything old first
             UI_TablePanel.Controls.Clear();
@@ -61,11 +68,28 @@ namespace crossword
             {
                 for (int col = 0; col < columncount; col++)
                 {
-                    UI_TablePanel.Controls.Add(blocks[row][col].GenerateControl(), col, row);
+                    UI_TablePanel.Controls.Add(blocks[row,col].GetVisualControl(), col, row);
                 }
             }
         }
 
-       
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IBlock[,] blocks = activeCrossword.GetBlocks();
+            Random r = new Random();
+            foreach(var block in blocks)
+            {
+                if(r.Next(0,2) == 0)
+                {
+                    block.SetConfirmed();
+                    block.Highlight();
+                }
+                else
+                {
+                    block.SetWrong();
+                }
+                
+            }
+        }
     }
 }

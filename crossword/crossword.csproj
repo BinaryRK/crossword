@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlackBlock.cs" />
-    <Compile Include="block.cs" />
     <Compile Include="CharacterBlock.cs" />
     <Compile Include="Crossword.cs" />
     <Compile Include="IBlock.cs" />

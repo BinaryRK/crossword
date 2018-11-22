@@ -9,11 +9,15 @@ namespace crossword
 {
     class BlackBlock : IBlock
     {
-        static extern bool HideCaret(IntPtr hWnd);
         TextBox text = new TextBox();
 
-        private void CreateBox() {
-            
+        public BlackBlock()
+        {
+            CreateBox();
+        }
+
+        private void CreateBox()
+        {
             text.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             text.BorderStyle = System.Windows.Forms.BorderStyle.None;
             text.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
@@ -24,16 +28,15 @@ namespace crossword
             text.Size = new System.Drawing.Size(38, 19);
             text.TabIndex = 0;
             text.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            
-             void textBox1_TextChanged(object sender, EventArgs e) //hide cursor
-            {
-                HideCaret(text.Handle);
-            }
-            
+            text.Enabled = false;
         }
+
+
+
         public void Highlight() { }
 
-       public Control GetVisualControl() {
+        public Control GetVisualControl()
+        {
             return text;
         }
 
@@ -66,11 +69,17 @@ namespace crossword
         }
 
         public void SetConfirmed() { }
-        
+
         public void SetWrong() { }
 
+        public void SetVerticalWord(Word word) { }
 
+        public void SetHorizontalWord(Word word) { }
 
+        public bool IsSet()
+        {
+            return true;
+        }
     }
 
 

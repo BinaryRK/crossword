@@ -12,9 +12,11 @@ namespace crossword
         bool IsCorrectAnswer();
 
         bool IsPartOfVerticalWord();
+        void SetVerticalWord(Word word);
         Word GetVerticalWord();
 
         bool IsPartOfHorizontalWord();
+        void SetHorizontalWord(Word word);
         Word GetHorizontalWord();
 
         Control GetVisualControl();
@@ -25,5 +27,6 @@ namespace crossword
 
         void SetConfirmed();
         void SetWrong();
+        bool IsSet();
     }
 }

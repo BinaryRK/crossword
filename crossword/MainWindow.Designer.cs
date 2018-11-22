@@ -33,6 +33,7 @@
             this.UI_MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UI_Words = new System.Windows.Forms.ListView();
             this.UI_TablePanel.SuspendLayout();
             this.UI_MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -43,15 +44,15 @@
             this.UI_TablePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.UI_TablePanel.ColumnCount = 2;
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1162F));
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1163F));
             this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
-            this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.UI_TablePanel.Location = new System.Drawing.Point(0, 24);
             this.UI_TablePanel.Name = "UI_TablePanel";
             this.UI_TablePanel.RowCount = 2;
             this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
             this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 69F));
-            this.UI_TablePanel.Size = new System.Drawing.Size(1200, 668);
+            this.UI_TablePanel.Size = new System.Drawing.Size(1200, 513);
             this.UI_TablePanel.TabIndex = 0;
             // 
             // textBox1
@@ -89,8 +90,17 @@
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newGameToolStripMenuItem.Text = "New Game";
+            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
+            // 
+            // UI_Words
+            // 
+            this.UI_Words.Location = new System.Drawing.Point(181, 554);
+            this.UI_Words.Name = "UI_Words";
+            this.UI_Words.Size = new System.Drawing.Size(121, 97);
+            this.UI_Words.TabIndex = 1;
+            this.UI_Words.UseCompatibleStateImageBehavior = false;
             // 
             // MainWindow
             // 
@@ -98,6 +108,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.UI_TablePanel);
+            this.Controls.Add(this.UI_Words);
             this.Controls.Add(this.UI_MainMenuStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.UI_MainMenuStrip;
@@ -122,6 +133,7 @@
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ListView UI_Words;
     }
 }
 
