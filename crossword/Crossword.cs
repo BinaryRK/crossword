@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace crossword
 {
@@ -78,8 +79,10 @@ namespace crossword
                 MessageBox.Show("Cannot place word: " + word);
                 //throw new Exception("Cannot place word: " + word);
             }
-
-            PlaceWord(w, x, y);
+            else
+            {
+                PlaceWord(w, x, y);
+            }
         }
 
         public void GenerateNewCrossword(GameDifficulty difficulty)
@@ -108,90 +111,79 @@ namespace crossword
                 }
             }
         }
-        
+
+        // Helper function to resolve points cleaner. 
+        // This will also work for negative indexes
+        private static Point GetWordCoord(Word word, Point startPoint, int index)
+        {
+            int x = startPoint.X + (word.GetDirection() == WordDirection.Horizontal ? index : 0);
+            int y = startPoint.Y + (word.GetDirection() == WordDirection.Vertical   ? index : 0);
+            return new Point(x, y);
+        }
+
         // Excpects a word that can be placed
         private void PlaceWord(Word word, int row, int col)
         {
-            // Local
-            IBlock PlaceChar(int x, int y, int i)
-            {
-                if (blocks[x, y] == null)
-                {
-                    blocks[x, y] = new CharacterBlock(word.GetCorrectWord()[i]);
-                }
-                word.SetSharedBlock(blocks[x, y] as CharacterBlock, i);
-                return blocks[x, y];
-            }
+            Point start = new Point(row, col);
 
-            if (word.GetDirection() == WordDirection.Horizontal)
+            Point before = GetWordCoord(word, start, -1);
+            Point after = GetWordCoord(word, start, word.GetLength());
+
+            // Its ok to overwrite the old block here since black blocks do not get stored anywhere else than the block[,] array
+            blocks[before.X, before.Y] = new BlackBlock();
+            blocks[after.X, after.Y] = new BlackBlock();
+
+            for (int i = 0; i < word.GetLength(); i++)
             {
-                for (int i = 0; i < word.GetLength(); i++)
+                Point p = GetWordCoord(word, start, i);
+                if (blocks[p.X, p.Y] == null)
                 {
-                    PlaceChar(row + i, col, i).SetHorizontalWord(word);
+                    blocks[p.X, p.Y] = new CharacterBlock(word.GetCorrectWord()[i]);
                 }
-            }
-            else
-            {
-                for (int i = 0; i < word.GetLength(); i++)
-                {
-                    PlaceChar(row, col + i, i).SetVerticalWord(word);                    
-                }
+                word.SetSharedBlock(blocks[p.X, p.Y] as CharacterBlock, i);
             }
         }
 
         private bool CanWordBePlaced(Word word, int row, int col)
         {
-            if (row < 0 || col < 0)
+            Point start = new Point(row, col);
+
+            // Check lower bound
+            if (row <= 0 || col <= 0)
             {
                 return false;
             }
 
-            // Check if out of bounds 
-            if (word.GetDirection() == WordDirection.Horizontal)
+            // Check clearence before (previous must be black point)
+            Point before = GetWordCoord(word, start, -1);
+            if (blocks[before.X, before.Y] != null && blocks[before.X, before.Y].GetAnswer() != '#')
             {
-                if (row + word.GetLength() >= blocks.GetLength(0))
+                return false;
+            }
+
+            Point after = GetWordCoord(word, start, word.GetLength());
+
+            // Check upper bound
+            if (after.X >= blocks.GetLength(0) || after.Y >= blocks.GetLength(1))
+            {
+                return false;
+            }
+
+            // Check clearence after.
+            if (blocks[after.X, after.Y] != null && blocks[after.X, after.Y].GetAnswer() != '#')
+            {
+                return false;
+            }
+
+
+            for (int i = 0; i < word.GetLength(); ++i)
+            {
+                Point p = GetWordCoord(word, start, i);
+
+                if (blocks[p.X, p.Y] != null && blocks[p.X, p.Y].GetAnswer() != word.GetCorrectWord()[i])
                 {
                     return false;
                 }
-            }
-            else
-            {
-                if (col + word.GetLength() >= blocks.GetLength(1))
-                {
-                    return false;
-                }
-            }
-
-            // Local function to avoid double code for vertical / horizontal
-            bool CanPlace(int x, int y, int i)
-            {
-                if (blocks[x, y] == null)
-                {
-                    return true;
-                }
-                return blocks[x, y].GetAnswer() != word.GetCorrectWord()[i];
-            }
-
-            if (word.GetDirection() == WordDirection.Horizontal)
-            {
-                for (int i = 0; i < word.GetLength(); i++)
-                {
-                    if (!CanPlace(row + i, col, i))
-                    {
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < word.GetLength(); i++)
-                {
-                    if (!CanPlace(row, col + i, i))
-                    {
-                        return false;
-                    }
-                }
-
             }
 
             return true;
