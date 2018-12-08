@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Threading;
 
 namespace crossword
 {
@@ -21,71 +22,8 @@ namespace crossword
         private IBlock[,] blocks { get; set; }
         private List<Word> words = new List<Word>();
 
-        public Word[] GetWords()
-        {
-            List<Word> a = new List<Word>();
+        private ReaderWriterLockSlim blockLock = new ReaderWriterLockSlim();
 
-            a.Add(new Word("Cat", "Not a cat."));
-            a.Add(new Word("Dog", "Not a dog"));
-            a.Add(new Word("Dog", "lorem ip"));
-            a.Add(new Word("Dog", "Not a dog"));
-            a.Add(new Word("Dog", "Not a dog"));
-            a.Add(new Word("Lorem", "Lorem ipsum dolor sit amet, viris eruditi cum at. Te sea minim omittam, imperdiet reprehendunt cum ut. Eum ea summo mollis eleifend. Illum aeque instructior cum et. Pri velit dignissim in, cu qui eros epicurei platonem."));
-
-            return a.ToArray();
-        }
-
-        static public IBlock CreateBlock(char c)
-        {
-            if (c == '#')
-            {
-                return new BlackBlock();
-            }
-            return new CharacterBlock(c);
-        }
-
-        public IBlock[,] GetBlocks()
-        {
-            return blocks;
-        }
-
-        public bool IsSolved()
-        {
-            foreach (var block in blocks)
-            {
-                if (!block.IsCorrectAnswer())
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-
-        private bool TryPlace(Word w, Point start, int minIntersections)
-        {
-            int inters = CountIntersections(w, start);
-            
-            // "Useless" condition for a special case. Handled seperately for clarity.
-            if (inters < 0)
-            {
-                return false;
-            }
-            else if (inters < minIntersections)
-            {
-                return false;
-            }
-            
-            // Assume no doubles for now.
-            //else if (inters == w.GetCorrectWord().Length)
-            //{
-            //    return false;
-            //} 
-
-
-            PlaceWord(w, start);
-            return true;
-        }
 
         const int SizeX = 50;
         const int SizeY = 50;
@@ -202,6 +140,102 @@ namespace crossword
                 , "revive"
             };
 
+        const float GenerationComplexityFactor = 5.0f;
+
+        int InitialSizeWords;
+
+        int LoopsWithoutProgress;
+
+        int DuplicateWords = 0;
+
+        public Word[] GetWords()
+        {
+            List<Word> a = new List<Word>();
+
+            a.Add(new Word("Cat", "Not a cat."));
+            a.Add(new Word("Dog", "Not a dog"));
+            a.Add(new Word("Dog", "lorem ip"));
+            a.Add(new Word("Dog", "Not a dog"));
+            a.Add(new Word("Dog", "Not a dog"));
+            a.Add(new Word("Lorem", "Lorem ipsum dolor sit amet, viris eruditi cum at. Te sea minim omittam, imperdiet reprehendunt cum ut. Eum ea summo mollis eleifend. Illum aeque instructior cum et. Pri velit dignissim in, cu qui eros epicurei platonem."));
+
+            return a.ToArray();
+        }
+
+        static public IBlock CreateBlock(char c)
+        {
+            if (c == '#')
+            {
+                return new BlackBlock();
+            }
+            return new CharacterBlock(c);
+        }
+
+        public IBlock[,] GetBlocks()
+        {
+            return blocks;
+        }
+
+        public bool IsSolved()
+        {
+            foreach (var block in blocks)
+            {
+                if (!block.IsCorrectAnswer())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        private bool TryPlace(Word w, Point start, int minIntersections)
+        {
+
+            int inters;
+            blockLock.EnterReadLock();
+            try
+            {
+                inters = CountIntersections(w, start);
+            }
+            finally
+            {
+                blockLock.ExitReadLock();
+            }
+            
+            
+            // "Useless" condition for a special case. Handled seperately for clarity.
+            if (inters < 0)
+            {
+                return false;
+            }
+            else if (inters < minIntersections)
+            {
+                return false;
+            }
+
+            // Assume no doubles for now.
+            else if (inters == w.GetCorrectWord().Length)
+            {
+                return false;
+            } 
+
+            blockLock.EnterWriteLock();
+            try
+            {
+                PlaceWord(w, start);
+            }
+            finally
+            {
+                blockLock.ExitWriteLock();
+            }
+            
+
+
+            return true;
+        }
+
+
         public Word GenerateWord(int index, Random rstream)
         {
             return new Word(wordlist[index], "", rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
@@ -230,14 +264,73 @@ namespace crossword
             return false;
         }
 
+        public void PerThreadLoop()
+        {
+            Random r = new Random(Thread.CurrentThread.ManagedThreadId);
+            float GenerationFactor = InitialSizeWords * GenerationComplexityFactor;
+
+            var FailedWords = new List<string>();
+
+
+            while (wordlist.Count > 0 && LoopsWithoutProgress < GenerationFactor)
+            {
+                Word w;
+                String wordcopy;
+                lock (wordlist)
+                {
+                    int index = r.Next(wordlist.Count);
+                    wordcopy = wordlist[index];
+                    w = GenerateWord(index, r);
+                    wordlist.RemoveAt(index);
+                }
+                
+
+
+
+                int minIntersections = 0;
+                if (LoopsWithoutProgress < GenerationFactor * 0.1)
+                {
+                    minIntersections = 4;
+                }
+                else if (LoopsWithoutProgress < GenerationFactor * 0.3)
+                {
+                    minIntersections = 3;
+                }
+                else if (LoopsWithoutProgress < GenerationFactor * 0.95)
+                {
+                    minIntersections = 2;
+                }
+                else
+                {
+                    minIntersections = 1;
+                }
+
+                Interlocked.Increment(ref LoopsWithoutProgress);
+                if (TryPlaceEverywhere(w, minIntersections, r))
+                {
+                    LoopsWithoutProgress = 0;
+                }
+                else
+                {
+                    FailedWords.Add(wordcopy);
+                }
+
+                // We should put them back some time.
+                if (FailedWords.Count > 20 || (wordlist.Count < 5 && FailedWords.Count > 0))
+                {
+                    lock (wordlist)
+                    {
+                        wordlist.AddRange(FailedWords);
+                    }
+                    FailedWords.Clear();
+                }
+            }
+        }
+
         public void GenerateNewCrossword(GameDifficulty difficulty)
         {
-
-            const float GenerationComplexityFactor = 2.0f;
             blocks = new IBlock[SizeX, SizeY];
-
-           
-            int InitialSizeWords = wordlist.Count;
+            InitialSizeWords = wordlist.Count;
 
             Random r = new Random();
 
@@ -258,41 +351,27 @@ namespace crossword
                 }
             }
 
+            var Threads = new List<Thread>();
 
-            int LoopsWithoutProgress = 0;
-            float GenerationFactor = InitialSizeWords * GenerationComplexityFactor;
+            LoopsWithoutProgress = 0;
 
-            while (wordlist.Count > 0 && LoopsWithoutProgress < GenerationFactor)
+            for (int i = 0; i < Environment.ProcessorCount; ++i)
             {
-                int index = r.Next(wordlist.Count);
-                Word w = GenerateWord(index, r);
-
-
-                int minIntersections = 0;
-                if (LoopsWithoutProgress < GenerationFactor * 0.1)
-                {
-                    minIntersections = 4;
-                }
-                else if (LoopsWithoutProgress < GenerationFactor * 0.3)
-                {
-                    minIntersections = 3;
-                }
-                else if (LoopsWithoutProgress < GenerationFactor * 0.6)
-                {
-                    minIntersections = 2;
-                }
-                else
-                {
-                    minIntersections = 1;
-                }
-
-                LoopsWithoutProgress++;
-                if (TryPlaceEverywhere(w, minIntersections, r))
-                {
-                    LoopsWithoutProgress = 0;
-                    wordlist.RemoveAt(index);
-                }
+                var ts = new ThreadStart(PerThreadLoop);
+                Threads.Add(new Thread(new ThreadStart(PerThreadLoop)));
             }
+
+            foreach (var thread in Threads)
+            {
+                thread.Start();
+            }
+
+            foreach (var thread in Threads)
+            {
+                thread.Join();
+            }
+
+            MessageBox.Show("Duplicates: " + DuplicateWords, "Whoops", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 
             // Fill empty blocks
