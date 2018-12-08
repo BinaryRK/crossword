@@ -87,8 +87,8 @@ namespace crossword
             return true;
         }
 
-        const int SizeX = 50;
-        const int SizeY = 50;
+        const int SizeX = 22;
+        const int SizeY = 22;
 
         List<String> wordlist = new List<string>() {
                 "temporary"
@@ -232,14 +232,17 @@ namespace crossword
 
         public void GenerateNewCrossword(GameDifficulty difficulty)
         {
+            
 
-            const float GenerationComplexityFactor = 2.0f;
+            const float GenerationComplexityFactor = 7.0f;
             blocks = new IBlock[SizeX, SizeY];
 
            
             int InitialSizeWords = wordlist.Count;
 
             Random r = new Random();
+
+            DateTime timeStart = DateTime.Now;
 
             // Place first word at random
             bool Placed = false;
@@ -261,15 +264,32 @@ namespace crossword
 
             int LoopsWithoutProgress = 0;
             float GenerationFactor = InitialSizeWords * GenerationComplexityFactor;
-
+            int SingleIntersectionCount = 0;
             while (wordlist.Count > 0 && LoopsWithoutProgress < GenerationFactor)
             {
+                int wordsPlaced = InitialSizeWords - wordlist.Count;
+
+                float wordsPlacedPercent = wordsPlaced / InitialSizeWords;
+
                 int index = r.Next(wordlist.Count);
                 Word w = GenerateWord(index, r);
 
 
                 int minIntersections = 0;
-                if (LoopsWithoutProgress < GenerationFactor * 0.1)
+
+                if (wordsPlaced < 3)
+                {
+                    if (w.GetCorrectWord().Length > 5)
+                    {
+                        minIntersections = 1;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    
+                }
+                else if (LoopsWithoutProgress < GenerationFactor * 0.1)
                 {
                     minIntersections = 4;
                 }
@@ -277,7 +297,7 @@ namespace crossword
                 {
                     minIntersections = 3;
                 }
-                else if (LoopsWithoutProgress < GenerationFactor * 0.6)
+                else if (LoopsWithoutProgress < GenerationFactor * 0.9)
                 {
                     minIntersections = 2;
                 }
@@ -289,11 +309,21 @@ namespace crossword
                 LoopsWithoutProgress++;
                 if (TryPlaceEverywhere(w, minIntersections, r))
                 {
+                    if (minIntersections == 1)
+                    {
+                        SingleIntersectionCount++;
+                    }
                     LoopsWithoutProgress = 0;
                     wordlist.RemoveAt(index);
                 }
             }
 
+
+            TimeSpan ts = DateTime.Now - timeStart;
+
+            int ms = (int)ts.TotalMilliseconds;
+
+            MessageBox.Show("TotalMS: " + ms);
 
             // Fill empty blocks
             for (int row = 0; row < blocks.GetLength(0); row++)
