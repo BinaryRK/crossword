@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace crossword
 {
-    enum WordDirection
+    enum Direction
     {
         Horizontal
         , Vertical
@@ -15,13 +15,13 @@ namespace crossword
 
     class Word
     {
-        WordDirection direction;
+        Direction direction;
         string correctWord;
         string description;
         CharacterBlock[] blocks;
         bool finished = false;
 
-        public Word(string correctWord, string description, WordDirection direction = WordDirection.Horizontal)
+        public Word(string correctWord, string description, Direction direction = Direction.Horizontal)
         {
             this.correctWord = correctWord.ToUpper();
             this.direction = direction;
@@ -47,10 +47,10 @@ namespace crossword
         {
             switch (direction)
             {
-                case WordDirection.Horizontal:
+                case Direction.Horizontal:
                     block.SetHorizontalWord(this);
                     break;
-                case WordDirection.Vertical:
+                case Direction.Vertical:
                     block.SetVerticalWord(this);
                     break;
                 default:
@@ -93,7 +93,7 @@ namespace crossword
             }
         }
 
-        public WordDirection GetDirection()
+        public Direction GetDirection()
         {
             return direction;
         }

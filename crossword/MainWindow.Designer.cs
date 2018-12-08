@@ -33,10 +33,8 @@
             this.UI_MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.UI_TablePanel.SuspendLayout();
             this.UI_MainMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // UI_TablePanel
@@ -45,15 +43,15 @@
             this.UI_TablePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.UI_TablePanel.ColumnCount = 2;
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1164F));
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1165F));
             this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
-            this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UI_TablePanel.Location = new System.Drawing.Point(0, 24);
             this.UI_TablePanel.Name = "UI_TablePanel";
             this.UI_TablePanel.RowCount = 2;
             this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
             this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 69F));
-            this.UI_TablePanel.Size = new System.Drawing.Size(1200, 513);
+            this.UI_TablePanel.Size = new System.Drawing.Size(1200, 668);
             this.UI_TablePanel.TabIndex = 0;
             // 
             // textBox1
@@ -95,26 +93,16 @@
             this.newGameToolStripMenuItem.Text = "New Game";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(134, 543);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
-            this.dataGridView1.TabIndex = 2;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.UI_TablePanel);
             this.Controls.Add(this.UI_MainMenuStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.UI_MainMenuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Crossword: The Game";
             this.Load += new System.EventHandler(this.MainWindow_Load);
@@ -122,7 +110,6 @@
             this.UI_TablePanel.PerformLayout();
             this.UI_MainMenuStrip.ResumeLayout(false);
             this.UI_MainMenuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,7 +122,6 @@
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

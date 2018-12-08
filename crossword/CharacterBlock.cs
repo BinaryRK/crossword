@@ -13,6 +13,7 @@ namespace crossword
         Unconfirmed,
         Wrong
     }
+
     class CharacterBlock : IBlock
     {
         private BlockState state;
@@ -175,6 +176,16 @@ namespace crossword
                 return true;
             }
             return false;
+        }
+
+        public bool CanOverwrite(Direction direction)
+        {
+            return false;
+        }
+
+        public void RemoveOverwritePossibility(Direction direction)
+        {
+        
         }
     }
 }
