@@ -62,51 +62,35 @@ namespace crossword
         }
 
 
-        // TODO: Refactor
-        private bool PlaceHelper(string word, int vertical, int x, int y, int minIntersections)
+        private bool TryPlace(Word w, Point start, int minIntersections)
         {
-            Direction dir = Direction.Horizontal;
-
-            if (vertical == 1)
-            {
-                dir = Direction.Vertical;
-            }
-
-            Word w = new Word(word, "placeholder word", dir);
-
-            if (!CanWordBePlaced(w, x, y))
+            int inters = CountIntersections(w, start);
+            
+            // "Useless" condition for a special case. Handled seperately for clarity.
+            if (inters < 0)
             {
                 return false;
-                //MessageBox.Show("Cannot place word: " + word);
-                //throw new Exception("Cannot place word: " + word);
             }
-            else
+            else if (inters < minIntersections)
             {
-                int inters = CountIntersections(w, x, y);
-                if (inters < minIntersections)
-                {
-                    return false;
-                }
-                else if (inters == word.Length)
-                {
-                    return false;
-                }
-                PlaceWord(w, x, y);
-                return true;
+                return false;
             }
+            
+            // Assume no doubles for now.
+            //else if (inters == w.GetCorrectWord().Length)
+            //{
+            //    return false;
+            //} 
+
+
+            PlaceWord(w, start);
+            return true;
         }
 
+        const int SizeX = 50;
+        const int SizeY = 50;
 
-        public void GenerateNewCrossword(GameDifficulty difficulty)
-        {
-            const int SizeX = 50;
-            const int SizeY = 50;
-            const float GenerationComplexityFactor = 2.0f;
-            blocks = new IBlock[SizeX, SizeY];
-
-
-
-            List<String> wordlist = new List<string>() {
+        List<String> wordlist = new List<string>() {
                 "temporary"
                 , "elegant"
                 , "imminent"
@@ -218,8 +202,42 @@ namespace crossword
                 , "revive"
             };
 
+        public Word GenerateWord(int index, Random rstream)
+        {
+            return new Word(wordlist[index], "", rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
+        }
 
-            int SizeWords = wordlist.Count;
+        public bool TryPlaceEverywhere(Word word, int minIntersections, Random rstream)
+        {
+            int offseti = rstream.Next(SizeX);
+            int offsetj = rstream.Next(SizeY);
+
+            for (int i = 0; i < SizeX - 1; i++)
+            {
+                for (int j = 0; j < SizeY - 1; j++)
+                {
+                    Point p = new Point(
+                            (i + offseti) % (SizeX - 2) + 1,
+                            (j + offsetj) % (SizeY - 2) + 1
+                        );
+
+                    if (TryPlace(word, p, minIntersections))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void GenerateNewCrossword(GameDifficulty difficulty)
+        {
+
+            const float GenerationComplexityFactor = 2.0f;
+            blocks = new IBlock[SizeX, SizeY];
+
+           
+            int InitialSizeWords = wordlist.Count;
 
             Random r = new Random();
 
@@ -227,29 +245,27 @@ namespace crossword
             bool Placed = false;
             while(!Placed)
             {
-                String w = wordlist[r.Next(wordlist.Count)];
-                int vert = r.Next(2);
                 int x = r.Next((int)Math.Ceiling(SizeX * 0.30), (int)Math.Floor(SizeX * 0.70));
                 int y = r.Next((int)Math.Ceiling(SizeY * 0.30), (int)Math.Floor(SizeY * 0.70));
 
-                if (PlaceHelper(w, vert, x, y, 0))
+                int index = r.Next(wordlist.Count);
+                Word w = GenerateWord(index, r);
+
+                if (TryPlace(w, new Point(x, y), 0))
                 {
-                    wordlist.Remove(w);
+                    wordlist.RemoveAt(index);
                     Placed = true;
                 }
             }
 
 
             int LoopsWithoutProgress = 0;
-            float GenerationFactor = SizeWords * GenerationComplexityFactor;
+            float GenerationFactor = InitialSizeWords * GenerationComplexityFactor;
 
             while (wordlist.Count > 0 && LoopsWithoutProgress < GenerationFactor)
             {
-                LoopsWithoutProgress++;
-
-                String w = wordlist[r.Next(wordlist.Count)];
-                int vert = r.Next(2);
-
+                int index = r.Next(wordlist.Count);
+                Word w = GenerateWord(index, r);
 
 
                 int minIntersections = 0;
@@ -270,30 +286,13 @@ namespace crossword
                     minIntersections = 1;
                 }
 
-                int offseti = r.Next(15);
-                int offsetj = r.Next(15);
-
-                for (int i = 0; i < SizeX - 1; i++)
+                LoopsWithoutProgress++;
+                if (TryPlaceEverywhere(w, minIntersections, r))
                 {
-                    for (int j = 0; j < SizeY - 1; j++)
-                    {
-                        if (PlaceHelper(w, vert, (i + offseti) % (SizeX-2) + 1, (j + offsetj) % (SizeY-2) + 1, minIntersections))
-                        {
-                            LoopsWithoutProgress = 0;
-                            wordlist.Remove(w);
-                            goto nextword;
-                        }
-                    }
-                }
-
-                nextword:
-                {
-                    // nothing
+                    LoopsWithoutProgress = 0;
+                    wordlist.RemoveAt(index);
                 }
             }
-
-
-
 
 
             // Fill empty blocks
@@ -346,10 +345,8 @@ namespace crossword
         }
 
         // Excpects a word that can be placed
-        private void PlaceWord(Word word, int row, int col)
+        private void PlaceWord(Word word, Point start)
         {
-            Point start = new Point(row, col);
-
             Point before = GetWordCoord(word, start, -1);
             Point after = GetWordCoord(word, start, word.GetLength());
 
@@ -372,12 +369,10 @@ namespace crossword
             }
         }
 
-        private bool CanWordBePlaced(Word word, int row, int col)
+        private bool CanWordFit(Word word, Point start)
         {
-            Point start = new Point(row, col);
-
             // Check lower bound
-            if (row <= 0 || col <= 0)
+            if (start.X <= 0 || start.Y <= 0)
             {
                 return false;
             }
@@ -404,27 +399,18 @@ namespace crossword
             }
 
 
-            for (int i = 0; i < word.GetLength(); ++i)
-            {
-                Point p = GetWordCoord(word, start, i);
-
-                if (blocks[p.X, p.Y] != null)
-                {
-                    if (!(blocks[p.X, p.Y].GetAnswer() == word.GetCorrectWord()[i] || blocks[p.X, p.Y].CanOverwrite(word.GetDirection())))
-                    {
-                        return false;
-                    }
-                }
-            }
-
             return true;
         }
 
-        // Expects a word that can be placed
-        private int CountIntersections(Word word, int row, int col)
+        // Will return -1 if the word cannot be placed.
+        private int CountIntersections(Word word, Point start)
         {
             int intersections = 0;
-            Point start = new Point(row, col);
+
+            if (!CanWordFit(word, start))
+            {
+                return -1;
+            }
 
             for (int i = 0; i < word.GetLength(); ++i)
             {
@@ -432,10 +418,16 @@ namespace crossword
 
                 if (blocks[p.X, p.Y] != null)
                 {
-                    intersections++;
+                    if (blocks[p.X, p.Y].GetAnswer() == word.GetCorrectWord()[i])
+                    {
+                        intersections++;
+                    }
+                    else if (!blocks[p.X, p.Y].CanOverwrite(word.GetDirection()))
+                    {
+                        return -1;
+                    }
                 }
             }
-
             return intersections;
         }
     }
