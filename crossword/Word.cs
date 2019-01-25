@@ -97,7 +97,7 @@ namespace crossword
         {
             foreach (var block in blocks)
             {
-                block.SetUnconfirmed();
+                block.DeSelect();
             }
         }
 

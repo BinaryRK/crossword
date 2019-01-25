@@ -162,6 +162,11 @@ namespace crossword
             vertical = word;
         }
 
+        public void DeSelect()
+        {
+            UpdateState(state);
+        }
+
         public void SetHorizontalWord(Word word)
         {
             horizontal = word;

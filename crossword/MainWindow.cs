@@ -113,7 +113,7 @@ namespace crossword
 
         private void listBoxvertical_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
             if (selectedWord != null)
             {
                 selectedWord.DeSelect();
@@ -121,6 +121,7 @@ namespace crossword
             Word high = listBoxvertical.SelectedItem as Word;
             selectedWord = high;
             high.Select();
+            
         }
     }
 }
