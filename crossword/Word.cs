@@ -85,11 +85,19 @@ namespace crossword
             return correctWord.Length;
         }
 
-        void Highlight()
+        public void Select()
         {
             foreach (var block in blocks)
             {
                 block.Highlight();
+            }
+        }
+
+        public void DeSelect()
+        {
+            foreach (var block in blocks)
+            {
+                block.SetUnconfirmed();
             }
         }
 
@@ -161,5 +169,11 @@ namespace crossword
             }
             return correct;
         }
+        override public string ToString() 
+        {
+            return description;
+        }
     }
+
+
 }

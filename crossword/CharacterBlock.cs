@@ -62,16 +62,8 @@ namespace crossword
 
         public void Highlight()
         {
-            
-            void textBox1_MouseEnter(object sender, EventArgs e)
-            {
-                text.BackColor = System.Drawing.Color.LightYellow;
-            }
-
-            void textBox1_MouseLeave(object sender, EventArgs e)
-            {
-                text.BackColor = System.Drawing.Color.White;
-            }
+            text.BackColor = System.Drawing.Color.LightYellow;
+           
         }
 
         public void UpdateState(BlockState state)
@@ -158,6 +150,11 @@ namespace crossword
         public void SetWrong()
         {
             UpdateState(BlockState.Wrong);
+        }
+
+        public void SetUnconfirmed()
+        {
+            UpdateState(BlockState.Unconfirmed);
         }
 
         public void SetVerticalWord(Word word)

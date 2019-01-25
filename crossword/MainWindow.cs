@@ -42,14 +42,14 @@ namespace crossword
                 {
                     text = new ListBox();
                     text.Text = words[i].GetDescription();
-                    listBoxhorizontal.Items.Add(words[i].GetDescription());
+                    listBoxhorizontal.Items.Add(words[i]);
                     listBoxhorizontal.Size = new Size(listBoxhorizontal.Width, listBoxhorizontal.Items.Count * 20 + 30);
                 }
                 else
                 {
                     text = new ListBox();
                     text.Text = words[i].GetDescription();
-                    listBox2.Items.Add(words[i].GetDescription());
+                    listBoxvertical.Items.Add(words[i]);
                 }
 
 
@@ -99,6 +99,28 @@ namespace crossword
             activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
             //RemakeTable();
         }
+        Word selectedWord;
+        private void listBoxhorizontal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectedWord != null)
+            {
+                selectedWord.DeSelect();
+            }
+            Word high = listBoxhorizontal.SelectedItem as Word;
+            selectedWord = high;
+            high.Select();
+        }
 
+        private void listBoxvertical_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            if (selectedWord != null)
+            {
+                selectedWord.DeSelect();
+            }
+            Word high = listBoxvertical.SelectedItem as Word;
+            selectedWord = high;
+            high.Select();
+        }
     }
 }

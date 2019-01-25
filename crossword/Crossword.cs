@@ -201,7 +201,7 @@ namespace crossword
 
         public void GenerateNewCrossword(GameDifficulty difficulty)
         {
-            const float GenerationComplexityFactor = 2.0f;
+            const float GenerationComplexityFactor = 1.3f;
             blocks = new IBlock[SizeX, SizeY];
 
            
