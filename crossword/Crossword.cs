@@ -87,8 +87,8 @@ namespace crossword
             return true;
         }
 
-        const int SizeX = 22;
-        const int SizeY = 22;
+        const int SizeX = 25;
+        const int SizeY = 25;
 
         List<String> wordlist = new List<string>() {
                 "temporary"
@@ -202,39 +202,15 @@ namespace crossword
                 , "revive"
             };
 
+        // Helper function
         public Word GenerateWord(int index, Random rstream)
         {
             return new Word(wordlist[index], "", rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
-        public bool TryPlaceEverywhere(Word word, int minIntersections, Random rstream)
-        {
-            int offseti = rstream.Next(SizeX);
-            int offsetj = rstream.Next(SizeY);
-
-            for (int i = 0; i < SizeX - 1; i++)
-            {
-                for (int j = 0; j < SizeY - 1; j++)
-                {
-                    Point p = new Point(
-                            (i + offseti) % (SizeX - 2) + 1,
-                            (j + offsetj) % (SizeY - 2) + 1
-                        );
-
-                    if (TryPlace(word, p, minIntersections))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
         public void GenerateNewCrossword(GameDifficulty difficulty)
         {
-            
-
-            const float GenerationComplexityFactor = 7.0f;
+            const float GenerationComplexityFactor = 2.0f;
             blocks = new IBlock[SizeX, SizeY];
 
            
@@ -275,8 +251,8 @@ namespace crossword
                 Word w = GenerateWord(index, r);
 
 
-                int minIntersections = 0;
-
+                int minIntersections = 1;
+                
                 if (wordsPlaced < 3)
                 {
                     if (w.GetCorrectWord().Length > 5)
@@ -305,7 +281,7 @@ namespace crossword
                 {
                     minIntersections = 1;
                 }
-
+                
                 LoopsWithoutProgress++;
                 if (TryPlaceEverywhere(w, minIntersections, r))
                 {
@@ -337,6 +313,31 @@ namespace crossword
                 }
             }
         }
+
+
+        public bool TryPlaceEverywhere(Word word, int minIntersections, Random rstream)
+        {
+            int offseti = rstream.Next(SizeX);
+            int offsetj = rstream.Next(SizeY);
+
+            for (int i = 0; i < SizeX - 1; i++)
+            {
+                for (int j = 0; j < SizeY - 1; j++)
+                {
+                    Point p = new Point(
+                            (i + offseti) % (SizeX - 2) + 1,
+                            (j + offsetj) % (SizeY - 2) + 1
+                        );
+
+                    if (TryPlace(word, p, minIntersections))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         public bool IsValidPoint(Point p)
         {
