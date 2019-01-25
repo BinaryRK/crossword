@@ -37,7 +37,7 @@
             this.listBoxhorizontal = new System.Windows.Forms.ListBox();
             this.Hint = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.hintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.listBoxvertical = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.UI_TablePanel.SuspendLayout();
@@ -54,7 +54,7 @@
             this.UI_TablePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.UI_TablePanel.ColumnCount = 2;
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1168F));
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1169F));
             this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
             this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UI_TablePanel.Location = new System.Drawing.Point(3, 3);
@@ -116,7 +116,7 @@
             this.listBoxhorizontal.Size = new System.Drawing.Size(583, 144);
             this.listBoxhorizontal.Sorted = true;
             this.listBoxhorizontal.TabIndex = 3;
-            //this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
+            this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
             // 
             // Hint
             // 
@@ -124,7 +124,6 @@
             this.hintToolStripMenuItem});
             this.Hint.Name = "Hint";
             this.Hint.Size = new System.Drawing.Size(98, 26);
-            //this.Hint.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // hintToolStripMenuItem
             // 
@@ -132,24 +131,25 @@
             this.hintToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
             this.hintToolStripMenuItem.Text = "Hint";
             // 
-            // listBox2
+            // listBoxvertical
             // 
-            this.listBox2.ContextMenuStrip = this.Hint;
-            this.listBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.HorizontalScrollbar = true;
-            this.listBox2.ItemHeight = 20;
-            this.listBox2.Location = new System.Drawing.Point(3, 153);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(583, 284);
-            this.listBox2.Sorted = true;
-            this.listBox2.TabIndex = 5;
+            this.listBoxvertical.ContextMenuStrip = this.Hint;
+            this.listBoxvertical.Dock = System.Windows.Forms.DockStyle.Top;
+            this.listBoxvertical.FormattingEnabled = true;
+            this.listBoxvertical.HorizontalScrollbar = true;
+            this.listBoxvertical.ItemHeight = 20;
+            this.listBoxvertical.Location = new System.Drawing.Point(3, 153);
+            this.listBoxvertical.Name = "listBoxvertical";
+            this.listBoxvertical.Size = new System.Drawing.Size(583, 284);
+            this.listBoxvertical.Sorted = true;
+            this.listBoxvertical.TabIndex = 5;
+            this.listBoxvertical.SelectedIndexChanged += new System.EventHandler(this.listBoxvertical_SelectedIndexChanged);
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.listBox2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.listBoxvertical, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.listBoxhorizontal, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(608, 3);
@@ -213,7 +213,7 @@
         private System.Windows.Forms.ListBox listBoxhorizontal;
         private System.Windows.Forms.ContextMenuStrip Hint;
         private System.Windows.Forms.ToolStripMenuItem hintToolStripMenuItem;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox listBoxvertical;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
