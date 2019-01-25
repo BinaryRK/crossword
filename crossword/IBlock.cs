@@ -23,10 +23,15 @@ namespace crossword
 
         void SetCharacter(char c);
 
+        char GetAnswer();
+
         void Highlight();
 
         void SetConfirmed();
         void SetWrong();
         bool IsSet();
+
+        bool CanOverwrite(Direction direction);
+        void RemoveOverwritePossibility(Direction direction);
     }
 }

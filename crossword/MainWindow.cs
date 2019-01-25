@@ -13,14 +13,13 @@ namespace crossword
 {
     public partial class MainWindow : Form
     {
-        Crossword activeCrossword;
+        Crossword activeCrossword = new Crossword();
 
         private int blockSizePx = 21;
 
         public MainWindow()
         {
             InitializeComponent();
-            activeCrossword = new Crossword();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -98,31 +97,10 @@ namespace crossword
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IBlock[,] blocks = activeCrossword.GetBlocks();
-            Random r = new Random();
-            foreach(var block in blocks)
-            {
-                if(r.Next(0,2) == 0)
-                {
-                    block.SetConfirmed();
-                    block.Highlight();
-                }
-                else
-                {
-                    block.SetWrong();
-                }
-                
-            }
+            activeCrossword = new Crossword();
+            activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
+            //RemakeTable();
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void listBoxhorizontal_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-        }
     }
 }

@@ -13,6 +13,7 @@ namespace crossword
         Unconfirmed,
         Wrong
     }
+
     class CharacterBlock : IBlock
     {
         private BlockState state;
@@ -46,11 +47,17 @@ namespace crossword
                 {
                     GetHorizontalWord().OnBlockUpdated(this);
                 }
-                else if (IsPartOfVerticalWord())
+
+                if (IsPartOfVerticalWord())
                 {
                     GetVerticalWord().OnBlockUpdated(this);
                 }
             });
+        }
+
+        public char GetAnswer()
+        {
+            return answer;
         }
 
         public void Highlight()
@@ -89,7 +96,7 @@ namespace crossword
 
         public bool IsCorrectAnswer()
         {
-            if (text.Text[0] == answer)
+            if (text.Text.Length > 0 && text.Text[0] == answer)
             {
                 return true;
             }
@@ -164,7 +171,21 @@ namespace crossword
 
         public bool IsSet()
         {
-            return character != ' ';
+            if (text.Text.Length > 0 && !text.Text.Contains(' '))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool CanOverwrite(Direction direction)
+        {
+            return false;
+        }
+
+        public void RemoveOverwritePossibility(Direction direction)
+        {
+        
         }
     }
 }

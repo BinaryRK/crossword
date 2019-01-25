@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace crossword
 {
-    enum WordDirection
+    enum Direction
     {
         Horizontal
         , Vertical
@@ -15,12 +15,13 @@ namespace crossword
 
     class Word
     {
-        WordDirection direction;
+        Direction direction;
         string correctWord;
         string description;
         CharacterBlock[] blocks;
+        bool finished = false;
 
-        public Word(string correctWord, string description, WordDirection direction = WordDirection.Horizontal)
+        public Word(string correctWord, string description, Direction direction = Direction.Horizontal)
         {
             this.correctWord = correctWord.ToUpper();
             this.direction = direction;
@@ -38,7 +39,7 @@ namespace crossword
         {
             if (IsFilled())
             {
-                TryConfirm();
+                finished = TryConfirm();
             }
         }
 
@@ -46,10 +47,10 @@ namespace crossword
         {
             switch (direction)
             {
-                case WordDirection.Horizontal:
+                case Direction.Horizontal:
                     block.SetHorizontalWord(this);
                     break;
-                case WordDirection.Vertical:
+                case Direction.Vertical:
                     block.SetVerticalWord(this);
                     break;
                 default:
@@ -69,7 +70,6 @@ namespace crossword
             }
             return block;
         }
-
 
         // Generate the remaining unset blocks. (or all blocks if none are already generated/set)
         public void GenerateRemainingBlocks()
@@ -93,15 +93,9 @@ namespace crossword
             }
         }
 
-        public WordDirection GetDirection()
+        public Direction GetDirection()
         {
             return direction;
-        }
-
-        // Position is in range 0 -> Len-1
-        public char GetLetterAt(int position)
-        {
-            return correctWord[position];
         }
 
         public CharacterBlock GetBlockAt(int position)
@@ -145,16 +139,9 @@ namespace crossword
         }
 
         // returns true when the all blocks are confirmed
-        public bool IsConfirmed()
+        public bool IsFinished()
         {
-            foreach (var block in blocks)
-            {
-                if (false) // TODO:
-                {
-                    return false;
-                }
-            }
-            return true;
+            return finished;
         }
 
         public bool TryConfirm()

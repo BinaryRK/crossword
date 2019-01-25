@@ -7,13 +7,27 @@ using System.Threading.Tasks;
 
 namespace crossword
 {
+    enum BlockOverwrite
+    {
+        Any,
+        VerticalOnly,
+        HorizontalOnly,
+        None
+    }
+
     class BlackBlock : IBlock
     {
         TextBox text = new TextBox();
+        BlockOverwrite overwriteCondition = BlockOverwrite.Any;
 
         public BlackBlock()
         {
             CreateBox();
+        }
+
+        public BlackBlock(BlockOverwrite overwriteCond) : this()
+        {
+            this.overwriteCondition = overwriteCond;
         }
 
         private void CreateBox()
@@ -31,7 +45,62 @@ namespace crossword
             text.Enabled = false;
         }
 
+        public bool CanOverwriteVertical()
+        {
+            return overwriteCondition == BlockOverwrite.VerticalOnly
+                || overwriteCondition == BlockOverwrite.Any;
+        }
 
+        public bool CanOverwriteHoriznotal()
+        {
+            return overwriteCondition == BlockOverwrite.HorizontalOnly
+                || overwriteCondition == BlockOverwrite.Any;
+        }
+
+        public bool CanOverwrite(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Horizontal:
+                    return overwriteCondition == BlockOverwrite.HorizontalOnly
+                        || overwriteCondition == BlockOverwrite.Any;
+                case Direction.Vertical:
+                    return overwriteCondition == BlockOverwrite.VerticalOnly
+                        || overwriteCondition == BlockOverwrite.Any;
+            }
+            return overwriteCondition != BlockOverwrite.None;
+        }
+
+        public void RemoveOverwritePossibility(Direction direction)
+        {
+            if (!CanOverwrite(direction))
+            {
+                return;
+            }
+
+            if (overwriteCondition == BlockOverwrite.Any)
+            {
+                switch (direction) {
+                    case Direction.Vertical:
+                        overwriteCondition = BlockOverwrite.HorizontalOnly;
+                        return;
+                    case Direction.Horizontal:
+                        overwriteCondition = BlockOverwrite.VerticalOnly;
+                        return;
+                }
+            }
+            else
+            {
+                // we can reach here only if we can overwrite ONLY this direction in this block.
+                overwriteCondition = BlockOverwrite.None;
+            }
+        }
+
+
+        public char GetAnswer()
+        {
+            return '#';
+        }
 
         public void Highlight() { }
 
@@ -80,7 +149,8 @@ namespace crossword
         {
             return true;
         }
-    }
 
+
+    }
 
 }
