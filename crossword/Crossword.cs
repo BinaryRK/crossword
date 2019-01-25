@@ -23,42 +23,9 @@ namespace crossword
 
         public Word[] GetWords()
         {
-            List<Word> a = new List<Word>();
-
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Cat", "Not a cat.", WordDirection.Vertical));
-            a.Add(new Word("Dog", "Not a dog", WordDirection.Vertical));
-            a.Add(new Word("Dog", "lorem ip", WordDirection.Vertical));
-            a.Add(new Word("Dog", "Not a dog", WordDirection.Vertical));
-            a.Add(new Word("Dog", "Not a dog", WordDirection.Vertical));
-            a.Add(new Word("Lorem", "Lorem ipsum dolor sit amet, viris eruditi cum at. Te sea minim omittam, imperdiet reprehendunt cum ut. Eum ea summo mollis eleifend. Illum aeque instructior cum et. Pri velit dignissim in, cu qui eros epicurei platonem."));
-            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
-            a.Add(new Word("Klol", "lol", WordDirection.Vertical));
-            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
-            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
-            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
-            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
-            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
-            a.Add(new Word("Kappa", "kappa", WordDirection.Horizontal));
-            return a.ToArray();
+            return words.ToArray();
         }
-
+        
         static public IBlock CreateBlock(char c)
         {
             if (c == '#')
@@ -114,7 +81,7 @@ namespace crossword
         const int SizeX = 25;
         const int SizeY = 25;
 
-        List<String> wordlist = new List<string>() {
+        List<String> initialWords = new List<string>() {
                 "temporary"
                 , "elegant"
                 , "imminent"
@@ -229,7 +196,7 @@ namespace crossword
         // Helper function
         public Word GenerateWord(int index, Random rstream)
         {
-            return new Word(wordlist[index], "", rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
+            return new Word(initialWords[index], initialWords[index], rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
         public void GenerateNewCrossword(GameDifficulty difficulty)
@@ -238,7 +205,7 @@ namespace crossword
             blocks = new IBlock[SizeX, SizeY];
 
            
-            int InitialSizeWords = wordlist.Count;
+            int InitialSizeWords = initialWords.Count;
 
             Random r = new Random();
 
@@ -251,12 +218,12 @@ namespace crossword
                 int x = r.Next((int)Math.Ceiling(SizeX * 0.30), (int)Math.Floor(SizeX * 0.70));
                 int y = r.Next((int)Math.Ceiling(SizeY * 0.30), (int)Math.Floor(SizeY * 0.70));
 
-                int index = r.Next(wordlist.Count);
+                int index = r.Next(initialWords.Count);
                 Word w = GenerateWord(index, r);
 
                 if (TryPlace(w, new Point(x, y), 0))
                 {
-                    wordlist.RemoveAt(index);
+                    initialWords.RemoveAt(index);
                     Placed = true;
                 }
             }
@@ -265,13 +232,13 @@ namespace crossword
             int LoopsWithoutProgress = 0;
             float GenerationFactor = InitialSizeWords * GenerationComplexityFactor;
             int SingleIntersectionCount = 0;
-            while (wordlist.Count > 0 && LoopsWithoutProgress < GenerationFactor)
+            while (initialWords.Count > 0 && LoopsWithoutProgress < GenerationFactor)
             {
-                int wordsPlaced = InitialSizeWords - wordlist.Count;
+                int wordsPlaced = InitialSizeWords - initialWords.Count;
 
                 float wordsPlacedPercent = wordsPlaced / InitialSizeWords;
 
-                int index = r.Next(wordlist.Count);
+                int index = r.Next(initialWords.Count);
                 Word w = GenerateWord(index, r);
 
 
@@ -314,7 +281,7 @@ namespace crossword
                         SingleIntersectionCount++;
                     }
                     LoopsWithoutProgress = 0;
-                    wordlist.RemoveAt(index);
+                    initialWords.RemoveAt(index);
                 }
             }
 
@@ -422,6 +389,7 @@ namespace crossword
                 ProhibitOverwrite(GetWordCoord(word, start, i, 1), word.GetDirection());
                 ProhibitOverwrite(GetWordCoord(word, start, i, -1), word.GetDirection());
             }
+            words.Add(word);
         }
 
         private bool CanWordFit(Word word, Point start)

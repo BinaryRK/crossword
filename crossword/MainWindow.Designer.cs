@@ -116,7 +116,7 @@
             this.listBoxhorizontal.Size = new System.Drawing.Size(583, 144);
             this.listBoxhorizontal.Sorted = true;
             this.listBoxhorizontal.TabIndex = 3;
-            this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
+            //this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
             // 
             // Hint
             // 
@@ -124,7 +124,7 @@
             this.hintToolStripMenuItem});
             this.Hint.Name = "Hint";
             this.Hint.Size = new System.Drawing.Size(98, 26);
-            this.Hint.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            //this.Hint.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // hintToolStripMenuItem
             // 

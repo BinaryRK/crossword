@@ -62,6 +62,7 @@ namespace crossword
 
         public void Highlight()
         {
+            
             void textBox1_MouseEnter(object sender, EventArgs e)
             {
                 text.BackColor = System.Drawing.Color.LightYellow;

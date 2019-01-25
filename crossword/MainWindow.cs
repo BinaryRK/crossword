@@ -28,23 +28,22 @@ namespace crossword
             RemakeTable();
             RemakeWords();
         }
-       
 
         public void RemakeWords()
         {
             ListBox text;
             Word[] words = activeCrossword.GetWords();
             int i = 0;
-            for (i=0; i< words.Length; ++i)
+            for (i = 0; i < words.Length; ++i)
             {
-                
 
-                if (words[i].GetDirection() == WordDirection.Horizontal)
+
+                if (words[i].GetDirection() == Direction.Horizontal)
                 {
                     text = new ListBox();
                     text.Text = words[i].GetDescription();
                     listBoxhorizontal.Items.Add(words[i].GetDescription());
-                    listBoxhorizontal.Size = new Size (listBoxhorizontal.Width,listBoxhorizontal.Items.Count * 20+30);
+                    listBoxhorizontal.Size = new Size(listBoxhorizontal.Width, listBoxhorizontal.Items.Count * 20 + 30);
                 }
                 else
                 {
@@ -53,9 +52,8 @@ namespace crossword
                     listBox2.Items.Add(words[i].GetDescription());
                 }
 
-                
-            }
 
+            }
         }
 
         public void RemakeTable()
