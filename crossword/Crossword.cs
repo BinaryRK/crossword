@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace crossword
 {
@@ -81,8 +82,8 @@ namespace crossword
         const int SizeX = 25;
         const int SizeY = 25;
 
-        List<String> initialWords = new List<string>() {
-                "temporary"
+        List<Tuple<string, string>> initialWords = new List<Tuple<string,string>>() {
+/*                "temporary"
                 , "elegant"
                 , "imminent"
                 , "enemies"
@@ -190,17 +191,19 @@ namespace crossword
                 , "crackpot"
                 , "cinema"
                 , "occupy"
-                , "revive"
+                , "revive"*/
             };
 
         // Helper function
         public Word GenerateWord(int index, Random rstream)
         {
-            return new Word(initialWords[index], initialWords[index], rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
+            return new Word(initialWords[index].Item1, initialWords[index].Item2, rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
         public void GenerateNewCrossword(GameDifficulty difficulty)
         {
+            OpenWordFile();
+
             const float GenerationComplexityFactor = 2.0f;
             blocks = new IBlock[SizeX, SizeY];
 
@@ -452,6 +455,62 @@ namespace crossword
                 }
             }
             return intersections;
+        }
+
+        public void OpenWordFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Crossword List File|*.txt";
+            openFileDialog.Title = "Select a crossword list file.";
+
+            if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+
+
+            string filename = openFileDialog.FileName;
+            string[] filelines = File.ReadAllLines(filename);
+
+            char[] trimChars = {'.', ',', ':', ';'};
+
+            initialWords.Clear();
+
+            foreach (string line in filelines)
+            {
+                line.Trim(trimChars);
+
+                if (line.StartsWith("#")) {
+                    continue;
+                }
+
+                string[] parts = line.Split(trimChars);
+
+                if (parts.Length != 2)
+                {
+                    MessageBox.Show("Error parsing line: [" + line + "]\nWrong parts.");
+                    break;
+                }
+
+                parts[0].Trim();
+                parts[1].Trim();
+
+                if (parts[0].Length < 2)
+                {
+                    MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[0] + "]is too small. At least 2 chars are required.");
+                    break;
+                }
+
+                if (parts[1].Length < 5)
+                {
+                    MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[1] + "]is too small. At least 5 chars are required.");
+                    break;
+                }
+
+                initialWords.Add(Tuple.Create(parts[0], parts[1]));
+            }
+
+            MessageBox.Show("Loaded file with " + initialWords.Count + " words.");
         }
     }
 }
