@@ -14,7 +14,7 @@ namespace crossword
         Wrong
     }
 
-    class CharacterBlock : IBlock
+    public class CharacterBlock : IBlock
     {
         private BlockState state;
         private char answer;
@@ -40,18 +40,36 @@ namespace crossword
             text.Margin = new Padding(0);
             text.TextAlign = HorizontalAlignment.Center;
             text.BackColor = System.Drawing.Color.LightGray;
+
+            text.GotFocus += new EventHandler(delegate (Object sender, EventArgs a)
+            {
+                text.SelectAll();
+            });
+
             text.TextChanged += new EventHandler(delegate (Object sender, EventArgs a)
             {
-                if (IsPartOfHorizontalWord())
+                if (state == BlockState.Confirmed)
                 {
-                    GetHorizontalWord().OnBlockUpdated(this);
+                    text.Text = answer.ToString();
                 }
-
-                if (IsPartOfVerticalWord())
+                if (text.Text.Length > 0)
                 {
-                    GetVerticalWord().OnBlockUpdated(this);
+                    if (IsPartOfHorizontalWord())
+                    {
+                        GetHorizontalWord().OnBlockUpdated(this);
+                    }
+
+                    if (IsPartOfVerticalWord())
+                    {
+                        GetVerticalWord().OnBlockUpdated(this);
+                    }
                 }
             });
+        }
+
+        public void Focus()
+        {
+            text.Focus();
         }
 
         public char GetAnswer()
@@ -71,7 +89,7 @@ namespace crossword
             if (state == BlockState.Confirmed)
             {
                 text.BackColor = System.Drawing.Color.MediumSeaGreen;
-                text.ReadOnly = true;
+                //text.ReadOnly = fa;
                 text.Text = answer.ToString();
             }
             else if (state == BlockState.Wrong)
@@ -83,8 +101,6 @@ namespace crossword
                 text.BackColor = System.Drawing.Color.LightGray;
             }
         }
-
-
 
         public bool IsCorrectAnswer()
         {

@@ -40,28 +40,31 @@
             this.listBoxvertical = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.UI_TablePanel.SuspendLayout();
             this.UI_MainMenuStrip.SuspendLayout();
             this.Hint.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // UI_TablePanel
             // 
+            this.UI_TablePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.UI_TablePanel.AutoSize = true;
             this.UI_TablePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.UI_TablePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(42)))), ((int)(((byte)(39)))));
             this.UI_TablePanel.ColumnCount = 2;
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1170F));
             this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
-            this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.UI_TablePanel.Location = new System.Drawing.Point(3, 3);
+            this.UI_TablePanel.Location = new System.Drawing.Point(0, 3);
             this.UI_TablePanel.Name = "UI_TablePanel";
             this.UI_TablePanel.RowCount = 2;
             this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
             this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 69F));
-            this.UI_TablePanel.Size = new System.Drawing.Size(599, 662);
+            this.UI_TablePanel.Size = new System.Drawing.Size(1208, 88);
             this.UI_TablePanel.TabIndex = 0;
             // 
             // textBox1
@@ -166,7 +169,7 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.41667F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.58333F));
-            this.tableLayoutPanel2.Controls.Add(this.UI_TablePanel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 24);
@@ -176,6 +179,16 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1200, 668);
             this.tableLayoutPanel2.TabIndex = 5;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(42)))), ((int)(((byte)(39)))));
+            this.panel1.Controls.Add(this.UI_TablePanel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(599, 662);
+            this.panel1.TabIndex = 6;
             // 
             // MainWindow
             // 
@@ -198,6 +211,8 @@
             this.Hint.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,6 +231,7 @@
         private System.Windows.Forms.ListBox listBoxvertical;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

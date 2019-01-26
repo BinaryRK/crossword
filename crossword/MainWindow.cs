@@ -17,7 +17,7 @@ namespace crossword
 
         public static int blockSizePx = 21;
 
-        Word selectedWord;
+        public static Word selectedWord;
 
 
         public MainWindow()
@@ -34,28 +34,37 @@ namespace crossword
 
         public void RemakeWords()
         {
-            ListBox text;
             Word[] words = activeCrossword.GetWords();
-            int i = 0;
-            for (i = 0; i < words.Length; ++i)
+            for (int i = 0; i < words.Length; ++i)
             {
-
-
                 if (words[i].GetDirection() == Direction.Horizontal)
                 {
-                    text = new ListBox();
-                    text.Text = words[i].GetDescription();
                     listBoxhorizontal.Items.Add(words[i]);
                     listBoxhorizontal.Size = new Size(listBoxhorizontal.Width, listBoxhorizontal.Items.Count * 20 + 30);
                 }
                 else
                 {
-                    text = new ListBox();
-                    text.Text = words[i].GetDescription();
                     listBoxvertical.Items.Add(words[i]);
                 }
 
+                words[i].onFinish += word => {
+                    ListBox box = (word.GetDirection() == Direction.Horizontal) ? listBoxhorizontal : listBoxvertical;
 
+                    box.Items.Remove(word);
+                    SelectNextWord();
+                };
+            }
+        }
+
+        private void SelectNextWord()
+        {
+            if (listBoxhorizontal.Items.Count > 0)
+            {
+                listBoxhorizontal.SelectedIndex = 0;
+            }
+            else if (listBoxvertical.Items.Count > 0)
+            {
+                listBoxvertical.SelectedIndex = 0;
             }
         }
 
@@ -103,28 +112,30 @@ namespace crossword
             //RemakeTable();
         }
 
-        private void listBoxhorizontal_SelectedIndexChanged(object sender, EventArgs e)
+        private void SelectedWordInBox(ListBox listBox)
         {
             if (selectedWord != null)
             {
                 selectedWord.DeSelect();
             }
-            Word high = listBoxhorizontal.SelectedItem as Word;
+            Word high = listBox.SelectedItem as Word;
             selectedWord = high;
-            high.Select();
+            if (high != null)
+            {
+                high.Select();
+            }
+        }
+
+        private void listBoxhorizontal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedWordInBox(listBoxhorizontal);
         }
 
         private void listBoxvertical_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            if (selectedWord != null)
-            {
-                selectedWord.DeSelect();
-            }
-            Word high = listBoxvertical.SelectedItem as Word;
-            selectedWord = high;
-            high.Select();
-            
+            SelectedWordInBox(listBoxvertical);
         }
+
+
     }
 }

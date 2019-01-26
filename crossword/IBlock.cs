@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace crossword
 {
-    interface IBlock
+    public interface IBlock
     {
         bool IsCorrectAnswer();
 

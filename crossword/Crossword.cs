@@ -19,6 +19,10 @@ namespace crossword
 
     class Crossword
     {
+        const int SizeX = 15;
+        const int SizeY = 15;
+
+
         private IBlock[,] blocks { get; set; }
         private List<Word> words = new List<Word>();
         List<Tuple<string, string>> initialWords = new List<Tuple<string, string>>() { };
@@ -79,10 +83,6 @@ namespace crossword
             PlaceWord(w, start);
             return true;
         }
-
-        const int SizeX = 30;
-        const int SizeY = 30;
-
 
         // Helper function
         public Word GenerateWord(int index, Random rstream)

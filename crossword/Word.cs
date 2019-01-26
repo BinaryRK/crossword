@@ -7,19 +7,22 @@ using System.Windows.Forms;
 
 namespace crossword
 {
-    enum Direction
+    public enum Direction
     {
         Horizontal
         , Vertical
     }
 
-    class Word
+    public class Word
     {
         Direction direction;
         string correctWord;
         string description;
         CharacterBlock[] blocks;
         bool finished = false;
+
+        public delegate void OnFinish(Word sender);
+        public OnFinish onFinish;
 
         public Word(string correctWord, string description, Direction direction = Direction.Horizontal)
         {
@@ -35,11 +38,29 @@ namespace crossword
             MessageBox.Show(correctWord, description, buttons);
         }
 
-        public void OnBlockUpdated(IBlock block)
+        public void OnBlockUpdated(CharacterBlock block)
         {
+            if (finished)
+            {
+                return;
+            }
+
             if (IsFilled())
             {
                 finished = TryConfirm();
+                if (finished)
+                {
+                    onFinish.Invoke(this);
+                }
+            }
+            else if (this == MainWindow.selectedWord)
+            {
+                int currentIndex = Array.FindIndex(blocks, p => p == block) + 1;
+                
+                if (blocks.Length > currentIndex)
+                {
+                    blocks[currentIndex].Focus();
+                }
             }
         }
 
@@ -87,6 +108,7 @@ namespace crossword
 
         public void Select()
         {
+            blocks[0].Focus();
             foreach (var block in blocks)
             {
                 block.Highlight();
