@@ -92,7 +92,7 @@ namespace crossword
 
         public void GenerateNewCrossword(GameDifficulty difficulty)
         {
-            OpenWordFile();
+            OpenWordFile(true);
 
             const float GenerationComplexityFactor = 2.0f;
             blocks = new IBlock[SizeX, SizeY];
@@ -347,19 +347,35 @@ namespace crossword
             return intersections;
         }
 
-        public void OpenWordFile()
+        public void OpenWordFile(bool openDefault)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Crossword List File|*.txt";
-            openFileDialog.Title = "Select a crossword list file.";
+            string filename;
+            string currentDir = System.Environment.CurrentDirectory;
 
-            if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            if (openDefault && File.Exists(Path.Combine(currentDir, "wordlist.txt")))
             {
-                return;
+                               
+                filename = Path.Combine(currentDir, "wordlist.txt");
+            }
+            else
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Crossword List File|*.txt";
+                openFileDialog.Title = "Select a crossword list file.";
+                openFileDialog.InitialDirectory = currentDir;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    MessageBox.Show("No file selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(0);
+                    return;
+                }
+
+                filename = openFileDialog.FileName;
             }
 
 
-            string filename = openFileDialog.FileName;
             string[] filelines = File.ReadAllLines(filename);
 
             char[] trimChars = {'.', ',', ':', ';'};
@@ -387,20 +403,20 @@ namespace crossword
 
                 if (parts[0].Length < 2)
                 {
-                    MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[0] + "]is too small. At least 2 chars are required.");
-                    break;
+                    //MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[0] + "]is too small. At least 2 chars are required.");
+                    continue;
                 }
 
                 if (parts[1].Length < 5)
                 {
-                    MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[1] + "]is too small. At least 5 chars are required.");
-                    break;
+                    //MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[1] + "]is too small. At least 5 chars are required.");
+                    continue;
                 }
 
                 initialWords.Add(Tuple.Create(parts[0], parts[1]));
             }
 
-            MessageBox.Show("Loaded file with " + initialWords.Count + " words.");
+            //MessageBox.Show("Loaded file with " + initialWords.Count + " words.");
         }
     }
 }

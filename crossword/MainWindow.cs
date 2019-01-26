@@ -17,6 +17,9 @@ namespace crossword
 
         private int blockSizePx = 21;
 
+        Word selectedWord;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -99,7 +102,7 @@ namespace crossword
             activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
             //RemakeTable();
         }
-        Word selectedWord;
+
         private void listBoxhorizontal_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (selectedWord != null)
