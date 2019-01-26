@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace crossword
 {
@@ -32,14 +33,14 @@ namespace crossword
 
         private void CreateBox()
         {
-            text.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            text.BackColor = Color.FromArgb(43, 42, 39);
             text.BorderStyle = System.Windows.Forms.BorderStyle.None;
             text.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            text.Location = new System.Drawing.Point(1, 1);
-            text.Margin = new System.Windows.Forms.Padding(0);
+            text.Location = new System.Drawing.Point(-1, -1);
+            text.Margin = new System.Windows.Forms.Padding(-1);
             text.MaxLength = 1;
             text.ReadOnly = true;
-            text.Size = new System.Drawing.Size(38, 19);
+            text.Size = new System.Drawing.Size(MainWindow.blockSizePx, MainWindow.blockSizePx);
             text.TabIndex = 0;
             text.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             text.Enabled = false;

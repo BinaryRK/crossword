@@ -18,7 +18,6 @@ namespace crossword
     {
         private BlockState state;
         private char answer;
-        private char character;
         private Word vertical;
         private Word horizontal;
         TextBox text = new TextBox();
@@ -33,8 +32,8 @@ namespace crossword
         public void CreateBox()
         {
             text.BorderStyle = BorderStyle.None;
-            text.Location = new System.Drawing.Point(4, 4);
-            text.Size = new System.Drawing.Size(20, 19);
+            text.Location = new System.Drawing.Point(0, 0);
+            text.Size = new System.Drawing.Size(MainWindow.blockSizePx - 2, MainWindow.blockSizePx - 2);
             text.TabIndex = 0;
             text.CharacterCasing = CharacterCasing.Upper;
             text.MaxLength = 1;

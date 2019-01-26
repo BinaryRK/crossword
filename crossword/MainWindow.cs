@@ -15,7 +15,7 @@ namespace crossword
     {
         Crossword activeCrossword = new Crossword();
 
-        private int blockSizePx = 21;
+        public static int blockSizePx = 21;
 
         Word selectedWord;
 

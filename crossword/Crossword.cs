@@ -15,7 +15,7 @@ namespace crossword
         , Medium
         , Hard
     }
-
+    
 
     class Crossword
     {
@@ -80,8 +80,8 @@ namespace crossword
             return true;
         }
 
-        const int SizeX = 25;
-        const int SizeY = 25;
+        const int SizeX = 30;
+        const int SizeY = 30;
 
 
         // Helper function

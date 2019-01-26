@@ -50,11 +50,10 @@
             // UI_TablePanel
             // 
             this.UI_TablePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.UI_TablePanel.BackColor = System.Drawing.Color.FloralWhite;
-            this.UI_TablePanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.UI_TablePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(42)))), ((int)(((byte)(39)))));
             this.UI_TablePanel.ColumnCount = 2;
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1169F));
+            this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1170F));
             this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
             this.UI_TablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UI_TablePanel.Location = new System.Drawing.Point(3, 3);
@@ -67,10 +66,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox1.Location = new System.Drawing.Point(1, 1);
+            this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Margin = new System.Windows.Forms.Padding(0);
             this.textBox1.MaxLength = 1;
             this.textBox1.Name = "textBox1";
@@ -133,8 +132,9 @@
             // 
             // listBoxvertical
             // 
+            this.listBoxvertical.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxvertical.ContextMenuStrip = this.Hint;
-            this.listBoxvertical.Dock = System.Windows.Forms.DockStyle.Top;
             this.listBoxvertical.FormattingEnabled = true;
             this.listBoxvertical.HorizontalScrollbar = true;
             this.listBoxvertical.ItemHeight = 20;
