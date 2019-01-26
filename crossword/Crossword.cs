@@ -93,6 +93,7 @@ namespace crossword
         public void GenerateNewCrossword(GameDifficulty difficulty)
         {
             OpenWordFile(true);
+            words.Clear();
 
             const float GenerationComplexityFactor = 2.0f;
             blocks = new IBlock[SizeX, SizeY];
@@ -354,7 +355,6 @@ namespace crossword
 
             if (openDefault && File.Exists(Path.Combine(currentDir, "wordlist.txt")))
             {
-                               
                 filename = Path.Combine(currentDir, "wordlist.txt");
             }
             else
@@ -374,7 +374,6 @@ namespace crossword
 
                 filename = openFileDialog.FileName;
             }
-
 
             string[] filelines = File.ReadAllLines(filename);
 

@@ -44,6 +44,17 @@ namespace crossword
             text.GotFocus += new EventHandler(delegate (Object sender, EventArgs a)
             {
                 text.SelectAll();
+                if (MainWindow.selectedWord != GetHorizontalWord() && MainWindow.selectedWord != GetVerticalWord())
+                {
+                    if (IsPartOfHorizontalWord() && !GetHorizontalWord().IsFinished())
+                    {
+                        MainWindow.instance.SelectWord(GetHorizontalWord());
+                    }
+                    else if (IsPartOfVerticalWord() && !GetVerticalWord().IsFinished())
+                    {
+                        MainWindow.instance.SelectWord(GetVerticalWord());
+                    }
+                }
             });
 
             text.TextChanged += new EventHandler(delegate (Object sender, EventArgs a)
@@ -89,7 +100,7 @@ namespace crossword
             if (state == BlockState.Confirmed)
             {
                 text.BackColor = System.Drawing.Color.MediumSeaGreen;
-                //text.ReadOnly = fa;
+                text.TabStop = false;
                 text.Text = answer.ToString();
             }
             else if (state == BlockState.Wrong)

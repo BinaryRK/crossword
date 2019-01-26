@@ -19,21 +19,31 @@ namespace crossword
 
         public static Word selectedWord;
 
+        public static MainWindow instance;
 
         public MainWindow()
         {
+            instance = this;
             InitializeComponent();
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        private void NewGame()
         {
             activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
             RemakeTable();
             RemakeWords();
         }
 
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            NewGame();
+        }
+
         public void RemakeWords()
         {
+            listBoxhorizontal.Items.Clear();
+            listBoxvertical.Items.Clear();
+
             Word[] words = activeCrossword.GetWords();
             for (int i = 0; i < words.Length; ++i)
             {
@@ -54,6 +64,12 @@ namespace crossword
                     SelectNextWord();
                 };
             }
+        }
+
+        public void SelectWord(Word word)
+        {
+            listBoxhorizontal.SelectedItem = word;
+            listBoxvertical.SelectedItem = word;
         }
 
         private void SelectNextWord()
@@ -107,33 +123,41 @@ namespace crossword
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            activeCrossword = new Crossword();
-            activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
-            //RemakeTable();
+            NewGame();
         }
 
-        private void SelectedWordInBox(ListBox listBox)
+        private void SelectedWordChanged(Word high)
         {
-            if (selectedWord != null)
-            {
-                selectedWord.DeSelect();
-            }
-            Word high = listBox.SelectedItem as Word;
-            selectedWord = high;
             if (high != null)
             {
+                if (selectedWord != null)
+                {
+                    selectedWord.DeSelect();
+                }
+                selectedWord = high;
                 high.Select();
             }
         }
 
         private void listBoxhorizontal_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedWordInBox(listBoxhorizontal);
+            Word high = listBoxhorizontal.SelectedItem as Word;
+            if (high != null)
+            {
+                SelectedWordChanged(high);
+                listBoxvertical.ClearSelected();
+            }
         }
 
         private void listBoxvertical_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedWordInBox(listBoxvertical);
+            Word high = listBoxvertical.SelectedItem as Word;
+            if (high != null)
+            {
+                SelectedWordChanged(high);
+                listBoxhorizontal.ClearSelected();
+            }
+
         }
 
 
