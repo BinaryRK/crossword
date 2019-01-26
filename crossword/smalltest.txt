@@ -1,9 +1,9 @@
-temporary, descr_temporary
-elegant, descr_elegant
-imminent, descr_imminent
-enemies, descr_enemies
-long, descr_long
-retina, descr_retina
-drastikon, desc drastikon is a big noob
-binary, descr binary
-function, descr function
+temp rary, descr_temp rary
+ele ant, descr_elegant
+im inent, descr_imminent
+e emies, descr_enemies
+l ng, descr_long
+r tina, descr_retina
+d astikon, desc drastikon is a big noob
+b nary, descr binary
+f ncti n, descr function

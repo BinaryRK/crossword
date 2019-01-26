@@ -221,7 +221,7 @@ namespace crossword
 
         public bool IsSet()
         {
-            if (text.Text.Length > 0 && !text.Text.Contains(' '))
+            if (text.Text.Length > 0)
             {
                 return true;
             }
