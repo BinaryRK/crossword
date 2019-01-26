@@ -46,13 +46,13 @@ namespace crossword
                 text.SelectAll();
                 if (MainWindow.selectedWord != GetHorizontalWord() && MainWindow.selectedWord != GetVerticalWord())
                 {
-                    if (IsPartOfHorizontalWord() && !GetHorizontalWord().IsFinished())
-                    {
-                        MainWindow.instance.SelectWord(GetHorizontalWord());
-                    }
-                    else if (IsPartOfVerticalWord() && !GetVerticalWord().IsFinished())
+                    if (IsPartOfVerticalWord() && !GetVerticalWord().IsFinished())
                     {
                         MainWindow.instance.SelectWord(GetVerticalWord());
+                    }
+                    else if (IsPartOfHorizontalWord() && !GetHorizontalWord().IsFinished())
+                    {
+                        MainWindow.instance.SelectWord(GetHorizontalWord());
                     }
                 }
             });
@@ -76,6 +76,27 @@ namespace crossword
                     }
                 }
             });
+
+            text.KeyDown += new KeyEventHandler(delegate (Object sender, KeyEventArgs a)
+            {
+                if (a.KeyCode == Keys.Back && text.TextLength == 0)
+                {
+                    MainWindow.selectedWord.BackspaceBefore(this);
+                }
+            });
+        }
+
+        public void Backspace()
+        {
+            if (state == BlockState.Confirmed)
+            {
+                MainWindow.selectedWord.BackspaceBefore(this);
+            }
+            else
+            {
+                text.Text = "";
+                Focus();
+            }
         }
 
         public void Focus()

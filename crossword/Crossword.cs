@@ -9,19 +9,21 @@ using System.IO;
 
 namespace crossword
 {
-    public enum GameDifficulty
+    public enum CrosswordSize
     {
-        Easy
-        , Medium
-        , Hard
+        Small
+        , Normal
+        , Large
+        , VeryLarge
     }
     
 
     class Crossword
     {
-        const int SizeX = 15;
-        const int SizeY = 15;
+        int SizeX = 17;
+        int SizeY = 17;
 
+        string filename;
 
         private IBlock[,] blocks { get; set; }
         private List<Word> words = new List<Word>();
@@ -90,10 +92,31 @@ namespace crossword
             return new Word(initialWords[index].Item1, initialWords[index].Item2, rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
-        public void GenerateNewCrossword(GameDifficulty difficulty)
+        public void GenerateNewCrossword(CrosswordSize size)
         {
-            OpenWordFile(true);
+            switch (size)
+            {
+                case CrosswordSize.Small:
+                    SizeX = SizeY = 17;
+                    break;
+                case CrosswordSize.Normal:
+                    SizeX = SizeY = 24;
+                    break;
+                case CrosswordSize.Large:
+                    SizeX = SizeY = 31;
+                    break;
+                case CrosswordSize.VeryLarge:
+                    SizeX = SizeY = 45;
+                    break;
+            }
+
             words.Clear();
+
+            if (initialWords.Count < 5)
+            {
+                MessageBox.Show("Not enough words left for a new crossword. Reloading default file.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                OpenWordFile(true);
+            }
 
             const float GenerationComplexityFactor = 2.0f;
             blocks = new IBlock[SizeX, SizeY];
@@ -184,7 +207,11 @@ namespace crossword
 
             int ms = (int)ts.TotalMilliseconds;
 
-            MessageBox.Show("TotalMS: " + ms);
+            if (ms > 3000)
+            {
+                MessageBox.Show("Took " + ms + "ms to make this crossword.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             }
+            
 
             // Fill empty blocks
             for (int row = 0; row < blocks.GetLength(0); row++)
@@ -348,9 +375,8 @@ namespace crossword
             return intersections;
         }
 
-        public void OpenWordFile(bool openDefault)
+        public bool OpenWordFile(bool openDefault)
         {
-            string filename;
             string currentDir = System.Environment.CurrentDirectory;
 
             if (openDefault && File.Exists(Path.Combine(currentDir, "wordlist.txt")))
@@ -367,9 +393,8 @@ namespace crossword
 
                 if (openFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 {
-                    MessageBox.Show("No file selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Environment.Exit(0);
-                    return;
+                    //MessageBox.Show("No file selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
                 }
 
                 filename = openFileDialog.FileName;
@@ -416,6 +441,7 @@ namespace crossword
             }
 
             //MessageBox.Show("Loaded file with " + initialWords.Count + " words.");
+            return true;
         }
     }
 }

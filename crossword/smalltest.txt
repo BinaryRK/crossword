@@ -1,0 +1,9 @@
+temporary, descr_temporary
+elegant, descr_elegant
+imminent, descr_imminent
+enemies, descr_enemies
+long, descr_long
+retina, descr_retina
+drastikon, desc drastikon is a big noob
+binary, descr binary
+function, descr function

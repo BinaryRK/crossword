@@ -101,6 +101,20 @@ namespace crossword
             }
         }
 
+        internal void BackspaceBefore(CharacterBlock characterBlock)
+        {
+            if (finished)
+            {
+                return;
+            }
+
+            int currentIndex = Array.FindIndex(blocks, p => p == characterBlock) - 1;
+            if (currentIndex >= 0)
+            {
+                blocks[currentIndex].Backspace();
+            }
+        }
+
         public int GetLength()
         {
             return correctWord.Length;

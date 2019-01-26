@@ -27,16 +27,17 @@ namespace crossword
             InitializeComponent();
         }
 
-        private void NewGame()
+        private void NewGame(CrosswordSize size)
         {
-            activeCrossword.GenerateNewCrossword(GameDifficulty.Easy);
+            activeCrossword.GenerateNewCrossword(size);
             RemakeTable();
             RemakeWords();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            NewGame();
+            activeCrossword.OpenWordFile(true);
+            NewGame(CrosswordSize.Normal);
         }
 
         public void RemakeWords()
@@ -121,11 +122,6 @@ namespace crossword
             }
         }
 
-        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NewGame();
-        }
-
         private void SelectedWordChanged(Word high)
         {
             if (high != null)
@@ -160,6 +156,41 @@ namespace crossword
 
         }
 
+        private void smallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame(CrosswordSize.Small);
+        }
 
+        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame(CrosswordSize.Normal);
+        }
+
+        private void largeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame(CrosswordSize.Large);
+        }
+
+        private void veryLargeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame(CrosswordSize.VeryLarge);
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to Quit?", "Quit", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void changeWordListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (activeCrossword.OpenWordFile(false))
+            {
+                MessageBox.Show("Word file loaded. Start a new game to use the new list.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
+        }
     }
 }
