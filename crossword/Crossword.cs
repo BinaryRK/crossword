@@ -15,6 +15,7 @@ namespace crossword
         , Normal
         , Large
         , VeryLarge
+        , UsePrevious
     }
     
 
@@ -24,6 +25,8 @@ namespace crossword
         int SizeY = 17;
 
         string filename;
+
+        CrosswordSize size = CrosswordSize.Normal;
 
         private IBlock[,] blocks { get; set; }
         private List<Word> words = new List<Word>();
@@ -92,8 +95,13 @@ namespace crossword
             return new Word(initialWords[index].Item1, initialWords[index].Item2, rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
-        public void GenerateNewCrossword(CrosswordSize size)
+        public void GenerateNewCrossword(CrosswordSize newSize = CrosswordSize.UsePrevious)
         {
+            if (newSize != CrosswordSize.UsePrevious)
+            {
+                size = newSize;
+            }
+
             switch (size)
             {
                 case CrosswordSize.Small:
@@ -112,10 +120,10 @@ namespace crossword
 
             words.Clear();
 
-            if (initialWords.Count < 5)
+            if (initialWords.Count < 4)
             {
-                MessageBox.Show("Not enough words left for a new crossword. Reloading default file.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                OpenWordFile(true);
+                MessageBox.Show("Not enough words left for a new crossword. Reloading wordlist file.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                InitialiseFromFile();
             }
 
             const float GenerationComplexityFactor = 2.0f;
@@ -375,6 +383,53 @@ namespace crossword
             return intersections;
         }
 
+        public bool InitialiseFromFile()
+        {
+            string[] filelines = File.ReadAllLines(filename);
+
+            char[] trimChars = { '.', ',', ':', ';' };
+
+            initialWords.Clear();
+
+            foreach (string line in filelines)
+            {
+                line.Trim(trimChars);
+
+                if (line.StartsWith("#"))
+                {
+                    continue;
+                }
+
+                string[] parts = line.Split(trimChars);
+
+                if (parts.Length != 2)
+                {
+                    MessageBox.Show("Error parsing line: [" + line + "]\nWrong parts.");
+                    break;
+                }
+
+                parts[0].Trim();
+                parts[1].Trim();
+
+                if (parts[0].Length < 2)
+                {
+                    //MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[0] + "]is too small. At least 2 chars are required.");
+                    continue;
+                }
+
+                if (parts[1].Length < 2)
+                {
+                    //MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[1] + "]is too small. At least 2 chars are required.");
+                    continue;
+                }
+
+                initialWords.Add(Tuple.Create(parts[0], parts[1]));
+            }
+
+            //MessageBox.Show("Loaded file with " + initialWords.Count + " words.");
+            return true;
+        }
+
         public bool OpenWordFile(bool openDefault)
         {
             string currentDir = System.Environment.CurrentDirectory;
@@ -400,48 +455,7 @@ namespace crossword
                 filename = openFileDialog.FileName;
             }
 
-            string[] filelines = File.ReadAllLines(filename);
-
-            char[] trimChars = {'.', ',', ':', ';'};
-
-            initialWords.Clear();
-
-            foreach (string line in filelines)
-            {
-                line.Trim(trimChars);
-
-                if (line.StartsWith("#")) {
-                    continue;
-                }
-
-                string[] parts = line.Split(trimChars);
-
-                if (parts.Length != 2)
-                {
-                    MessageBox.Show("Error parsing line: [" + line + "]\nWrong parts.");
-                    break;
-                }
-
-                parts[0].Trim();
-                parts[1].Trim();
-
-                if (parts[0].Length < 2)
-                {
-                    //MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[0] + "]is too small. At least 2 chars are required.");
-                    continue;
-                }
-
-                if (parts[1].Length < 5)
-                {
-                    //MessageBox.Show("Error parsing line: [" + line + "]\nWord [" + parts[1] + "]is too small. At least 5 chars are required.");
-                    continue;
-                }
-
-                initialWords.Add(Tuple.Create(parts[0], parts[1]));
-            }
-
-            //MessageBox.Show("Loaded file with " + initialWords.Count + " words.");
-            return true;
+            return InitialiseFromFile();
         }
     }
 }

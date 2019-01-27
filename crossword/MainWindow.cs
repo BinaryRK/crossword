@@ -27,7 +27,7 @@ namespace crossword
             InitializeComponent();
         }
 
-        private void NewGame(CrosswordSize size)
+        private void NewGame(CrosswordSize size = CrosswordSize.UsePrevious)
         {
             activeCrossword.GenerateNewCrossword(size);
             RemakeTable();
@@ -158,21 +158,25 @@ namespace crossword
 
         private void smallToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            activeCrossword.InitialiseFromFile();
             NewGame(CrosswordSize.Small);
         }
 
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            activeCrossword.InitialiseFromFile();
             NewGame(CrosswordSize.Normal);
         }
 
         private void largeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            activeCrossword.InitialiseFromFile();
             NewGame(CrosswordSize.Large);
         }
 
         private void veryLargeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            activeCrossword.InitialiseFromFile();
             NewGame(CrosswordSize.VeryLarge);
         }
 
@@ -188,9 +192,14 @@ namespace crossword
         {
             if (activeCrossword.OpenWordFile(false))
             {
-                MessageBox.Show("Word file loaded. Start a new game to use the new list.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Word file loaded. Start a new game to use the new list.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                NewGame();
             }
-            
+        }
+
+        private void nextStageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame();
         }
     }
 }
