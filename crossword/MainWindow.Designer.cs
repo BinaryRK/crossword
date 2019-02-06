@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.UI_TablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.UI_MainMenuStrip = new System.Windows.Forms.MenuStrip();
@@ -38,6 +39,7 @@
             this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.largeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.veryLargeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nextStageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeWordListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBoxhorizontal = new System.Windows.Forms.ListBox();
@@ -47,7 +49,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.nextStageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UI_TablePanel.SuspendLayout();
             this.UI_MainMenuStrip.SuspendLayout();
             this.Hint.SuspendLayout();
@@ -117,7 +118,7 @@
             this.largeToolStripMenuItem,
             this.veryLargeToolStripMenuItem});
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.newGameToolStripMenuItem.Text = "New Game";
             // 
             // smallToolStripMenuItem
@@ -148,17 +149,24 @@
             this.veryLargeToolStripMenuItem.Text = "Very Large";
             this.veryLargeToolStripMenuItem.Click += new System.EventHandler(this.veryLargeToolStripMenuItem_Click);
             // 
+            // nextStageToolStripMenuItem
+            // 
+            this.nextStageToolStripMenuItem.Name = "nextStageToolStripMenuItem";
+            this.nextStageToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.nextStageToolStripMenuItem.Text = "Next Stage";
+            this.nextStageToolStripMenuItem.Click += new System.EventHandler(this.nextStageToolStripMenuItem_Click);
+            // 
             // changeWordListToolStripMenuItem
             // 
             this.changeWordListToolStripMenuItem.Name = "changeWordListToolStripMenuItem";
-            this.changeWordListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeWordListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.changeWordListToolStripMenuItem.Text = "Change Word List";
             this.changeWordListToolStripMenuItem.Click += new System.EventHandler(this.changeWordListToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -246,13 +254,6 @@
             this.panel1.Size = new System.Drawing.Size(599, 662);
             this.panel1.TabIndex = 6;
             // 
-            // nextStageToolStripMenuItem
-            // 
-            this.nextStageToolStripMenuItem.Name = "nextStageToolStripMenuItem";
-            this.nextStageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.nextStageToolStripMenuItem.Text = "Next Stage";
-            this.nextStageToolStripMenuItem.Click += new System.EventHandler(this.nextStageToolStripMenuItem_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -261,6 +262,7 @@
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.UI_MainMenuStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.UI_MainMenuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainWindow";
