@@ -77,12 +77,10 @@ namespace crossword
             {
                 return false;
             }
-            
-            // Assume no doubles for now.
-            //else if (inters == w.GetCorrectWord().Length)
-            //{
-            //    return false;
-            //} 
+            else if (inters == w.GetCorrectWord().Length)
+            {
+                return false;
+            } 
 
 
             PlaceWord(w, start);
@@ -90,7 +88,7 @@ namespace crossword
         }
 
         // Helper function
-        public Word GenerateWord(int index, Random rstream)
+        private Word GenerateWord(int index, Random rstream)
         {
             return new Word(initialWords[index].Item1, initialWords[index].Item2, rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
@@ -235,7 +233,7 @@ namespace crossword
         }
 
 
-        public bool TryPlaceEverywhere(Word word, int minIntersections, Random rstream)
+        private bool TryPlaceEverywhere(Word word, int minIntersections, Random rstream)
         {
             int offseti = rstream.Next(SizeX);
             int offsetj = rstream.Next(SizeY);
@@ -259,12 +257,12 @@ namespace crossword
         }
 
 
-        public bool IsValidPoint(Point p)
+        private bool IsValidPoint(Point p)
         {
             return IsValidPoint(p.X, p.Y);
         }
 
-        public bool IsValidPoint(int x, int y)
+        private bool IsValidPoint(int x, int y)
         {
             return x >= 0 && y >= 0
                 && x < blocks.GetLength(0)

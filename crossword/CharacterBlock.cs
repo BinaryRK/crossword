@@ -111,12 +111,18 @@ namespace crossword
 
         public void Highlight()
         {
-            text.BackColor = System.Drawing.Color.LightYellow;
-           
+            if (state != BlockState.Confirmed)
+            {
+                text.BackColor = System.Drawing.Color.LightYellow;
+            }
         }
 
         public void UpdateState(BlockState state)
         {
+            if (this.state == BlockState.Confirmed)
+            {
+                return;
+            }
             this.state = state;
             if (state == BlockState.Confirmed)
             {
